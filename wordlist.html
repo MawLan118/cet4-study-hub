@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CET-4 高频词表 · 215 条</title>
+<style>
+  :root{
+    --bg:#0d1014;--card:#161c25;--card2:#1c232e;--line:#28313d;
+    --txt:#e8eef7;--txt2:#a5b3c6;--txt3:#6e7e93;--accent:#4ecdc4;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:radial-gradient(1100px 520px at 12% -8%,#1a2331 0%,var(--bg) 58%) no-repeat,var(--bg);
+    color:var(--txt);font-family:"PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",sans-serif;
+    line-height:1.65;padding:40px 22px 90px;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1000px;margin:0 auto;}
+  header{margin-bottom:34px;}
+  .kicker{display:inline-block;font-size:11.5px;letter-spacing:.18em;color:var(--accent);
+    border:1px solid rgba(78,205,196,.35);background:rgba(78,205,196,.08);
+    padding:5px 12px;border-radius:999px;margin-bottom:16px;}
+  h1{font-size:34px;font-weight:800;line-height:1.3;letter-spacing:-.4px;}
+  h1 span{background:linear-gradient(100deg,var(--accent),#7aa2f7);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin-top:12px;color:var(--txt2);font-size:14.5px;max-width:760px;}
+  .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;font-size:12px;color:var(--txt3);}
+  .meta span{border:1px solid var(--line);border-radius:8px;padding:4px 10px;background:var(--card);}
+
+  .toolbar{position:sticky;top:0;z-index:9;background:rgba(13,16,20,.92);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);margin:22px -22px 0;padding:12px 22px;
+    display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+  .toolbar input{flex:1;min-width:180px;background:var(--card);border:1px solid var(--line);color:var(--txt);
+    border-radius:10px;padding:9px 13px;font-size:13.5px;outline:none;font-family:inherit;}
+  .toolbar input:focus{border-color:rgba(78,205,196,.5);}
+  .toolbar .hint{font-size:12px;color:var(--txt3);white-space:nowrap;}
+  nav{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px;}
+  nav a{font-size:12px;color:var(--txt2);text-decoration:none;border:1px solid var(--line);
+    border-radius:999px;padding:4px 11px;background:var(--card);transition:.15s;}
+  nav a:hover{border-color:var(--c);color:var(--txt);}
+
+  .grp{margin-top:44px;}
+  .grp-head{display:flex;gap:16px;align-items:flex-start;padding-bottom:14px;border-bottom:1px solid var(--line);}
+  .grp-no{font-size:12px;font-weight:800;color:var(--c);border:1px solid var(--c);
+    border-radius:8px;padding:3px 8px;margin-top:3px;opacity:.9;}
+  .grp-head h2{font-size:19px;font-weight:700;letter-spacing:.3px;}
+  .grp-note{font-size:12.8px;color:var(--txt3);margin-top:6px;max-width:640px;line-height:1.6;}
+  .grp-count{margin-left:auto;font-size:22px;font-weight:800;color:var(--c);font-variant-numeric:tabular-nums;}
+  .grp-count small{font-size:11px;font-weight:600;color:var(--txt3);margin-left:3px;}
+
+  .tbl-wrap{margin-top:14px;border:1px solid var(--line);border-radius:13px;overflow:hidden;}
+  table{width:100%;border-collapse:collapse;font-size:13.8px;}
+  thead th{background:var(--card2);color:var(--txt3);font-size:11px;letter-spacing:.1em;
+    font-weight:700;text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap;}
+  tbody td{padding:9px 14px;border-bottom:1px solid rgba(40,49,61,.55);color:var(--txt2);vertical-align:top;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:rgba(78,205,196,.05);}
+  tbody td:first-child{color:var(--txt);font-weight:600;font-family:ui-monospace,Consolas,"SF Mono",monospace;
+    font-size:13.2px;white-space:nowrap;}
+  tbody td:nth-child(2){color:var(--txt3);font-size:12.5px;white-space:nowrap;}
+  table.two-col tbody td:first-child{white-space:normal;}
+  tr.hide{display:none;}
+
+  .plan{margin-top:46px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;}
+  .plan h3{font-size:16px;margin-bottom:4px;}
+  .plan .pnote{font-size:12.5px;color:var(--txt3);margin-bottom:16px;}
+  .plan table{font-size:13px;}
+  .plan td{padding:8px 10px;border-bottom:1px solid rgba(40,49,61,.5);}
+  .plan tr:last-child td{border-bottom:none;}
+  .plan td.d{color:var(--accent);font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums;}
+  .plan td:nth-child(2){color:var(--txt);font-weight:600;white-space:nowrap;}
+
+  .warn{margin-top:22px;border-left:3px solid #f7b267;background:rgba(247,178,103,.06);
+    border-radius:10px;padding:16px 20px;font-size:13.2px;color:var(--txt2);}
+  .warn b{color:var(--txt);}
+  footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--line);
+    font-size:11.8px;color:var(--txt3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+
+  @media print{
+    body{background:#fff;color:#111;padding:0;}
+    .toolbar,nav,.grp-note,footer{display:none;}
+    .tbl-wrap,.plan{border-color:#ccc;}
+    thead th{background:#f2f2f2;color:#333;}
+    tbody td{color:#222;border-color:#e5e5e5;}
+    .grp{page-break-inside:avoid;}
+  }
+  @media(max-width:600px){
+    body{padding:26px 14px 60px;} h1{font-size:25px;}
+    .toolbar{margin:18px -14px 0;padding:10px 14px;}
+    tbody td{padding:8px 10px;font-size:12.8px;}
+    .grp-count{display:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">CET-4 · HIGH-FREQUENCY WORDLIST</div>
+    <h1>四级高频词表 <span>215 条</span><br>背完这些，再去刷真题</h1>
+    <p class="sub">按近 5–8 年真题的高频题材整理，只保留“会反复出现 + 写作翻译用得上”的词。每个词只给一条必背搭配——四级考的是搭配，不是词典释义。</p>
+    <div class="meta">
+      <span>动词 69</span><span>名词 55</span><span>形容词 43</span>
+      <span>写作用语 18</span><span>翻译词 18</span><span>易混 12 组</span>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <input id="q" type="search" placeholder="输入英文或中文，即时过滤（比如 achieve / 影响）">
+    <span class="hint" id="cnt"></span>
+  </div>
+  <nav><a href="#g1" style="--c:#4ecdc4">动词</a><a href="#g2" style="--c:#7aa2f7">名词</a><a href="#g3" style="--c:#f7b267">形容词 / 副词</a><a href="#g4" style="--c:#7ec699">写作</a><a href="#g5" style="--c:#c792ea">翻译</a><a href="#g6" style="--c:#f2777a">易混词</a></nav>
+
+  
+    <section class="grp" id="g1">
+      <div class="grp-head" style="--c:#4ecdc4">
+        <div class="grp-no">01</div>
+        <div>
+          <h2>动词：阅读与写作的主力</h2>
+          <p class="grp-note">四级动词题最爱考"搭配"而非"词义"。背的时候只记一条搭配，做题时靠搭配反推意思。</p>
+        </div>
+        <div class="grp-count">69<small>词</small></div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="">
+          <thead><tr><th>单词</th><th>词性</th><th>释义</th><th>必背搭配</th></tr></thead>
+          <tbody><tr><td>achieve</td><td>v.</td><td>实现；达到</td><td>achieve one's goal</td></tr><tr><td>acquire</td><td>v.</td><td>获得；习得</td><td>acquire skills</td></tr><tr><td>adapt</td><td>v.</td><td>适应；改编</td><td>adapt to change</td></tr><tr><td>adjust</td><td>v.</td><td>调整；适应</td><td>adjust to a new life</td></tr><tr><td>adopt</td><td>v.</td><td>采纳；收养</td><td>adopt a policy</td></tr><tr><td>affect</td><td>v.</td><td>影响（动词）</td><td>be affected by</td></tr><tr><td>afford</td><td>v.</td><td>负担得起</td><td>can't afford to wait</td></tr><tr><td>allocate</td><td>v.</td><td>分配</td><td>allocate resources</td></tr><tr><td>analyze</td><td>v.</td><td>分析</td><td>analyze the data</td></tr><tr><td>apply</td><td>v.</td><td>申请；应用</td><td>apply for a position</td></tr><tr><td>appreciate</td><td>v.</td><td>感激；欣赏</td><td>appreciate your help</td></tr><tr><td>assess</td><td>v.</td><td>评估</td><td>assess the risk</td></tr><tr><td>assume</td><td>v.</td><td>认为；承担</td><td>assume responsibility</td></tr><tr><td>attract</td><td>v.</td><td>吸引</td><td>attract attention</td></tr><tr><td>avoid</td><td>v.</td><td>避免</td><td>avoid making mistakes</td></tr><tr><td>boost</td><td>v.</td><td>提升；促进</td><td>boost efficiency</td></tr><tr><td>broaden</td><td>v.</td><td>拓宽</td><td>broaden one's horizons</td></tr><tr><td>claim</td><td>v.</td><td>声称；索取</td><td>claim that ...</td></tr><tr><td>commit</td><td>v.</td><td>承诺；投入</td><td>commit to a plan</td></tr><tr><td>compete</td><td>v.</td><td>竞争</td><td>compete with rivals</td></tr><tr><td>conduct</td><td>v.</td><td>进行；实施</td><td>conduct a survey</td></tr><tr><td>confirm</td><td>v.</td><td>确认</td><td>confirm the booking</td></tr><tr><td>consume</td><td>v.</td><td>消耗；消费</td><td>consume energy</td></tr><tr><td>contribute</td><td>v.</td><td>促成；贡献</td><td>contribute to</td></tr><tr><td>convince</td><td>v.</td><td>说服</td><td>convince sb of sth</td></tr><tr><td>cope</td><td>v.</td><td>应对</td><td>cope with pressure</td></tr><tr><td>demonstrate</td><td>v.</td><td>证明；演示</td><td>demonstrate the value</td></tr><tr><td>deserve</td><td>v.</td><td>值得</td><td>deserve attention</td></tr><tr><td>distinguish</td><td>v.</td><td>区分</td><td>distinguish A from B</td></tr><tr><td>eliminate</td><td>v.</td><td>消除</td><td>eliminate waste</td></tr><tr><td>emphasize</td><td>v.</td><td>强调</td><td>emphasize the importance</td></tr><tr><td>encourage</td><td>v.</td><td>鼓励</td><td>encourage sb to do</td></tr><tr><td>enhance</td><td>v.</td><td>增强</td><td>enhance efficiency</td></tr><tr><td>ensure</td><td>v.</td><td>确保</td><td>ensure safety</td></tr><tr><td>establish</td><td>v.</td><td>建立</td><td>establish a habit</td></tr><tr><td>evaluate</td><td>v.</td><td>评价</td><td>evaluate performance</td></tr><tr><td>expand</td><td>v.</td><td>扩大</td><td>expand the market</td></tr><tr><td>explore</td><td>v.</td><td>探索</td><td>explore possibilities</td></tr><tr><td>fail</td><td>v.</td><td>未能；失败</td><td>fail to do</td></tr><tr><td>focus</td><td>v.</td><td>集中</td><td>focus on details</td></tr><tr><td>generate</td><td>v.</td><td>产生</td><td>generate income</td></tr><tr><td>handle</td><td>v.</td><td>处理</td><td>handle complaints</td></tr><tr><td>hesitate</td><td>v.</td><td>犹豫</td><td>hesitate to do</td></tr><tr><td>identify</td><td>v.</td><td>识别；确认</td><td>identify the cause</td></tr><tr><td>ignore</td><td>v.</td><td>忽视</td><td>ignore the warning</td></tr><tr><td>implement</td><td>v.</td><td>实施</td><td>implement a plan</td></tr><tr><td>indicate</td><td>v.</td><td>表明</td><td>the data indicate</td></tr><tr><td>involve</td><td>v.</td><td>涉及</td><td>be involved in</td></tr><tr><td>maintain</td><td>v.</td><td>维持；主张</td><td>maintain balance</td></tr><tr><td>manage</td><td>v.</td><td>设法完成；管理</td><td>manage to do</td></tr><tr><td>motivate</td><td>v.</td><td>激励</td><td>motivate the team</td></tr><tr><td>obtain</td><td>v.</td><td>获得</td><td>obtain permission</td></tr><tr><td>overcome</td><td>v.</td><td>克服</td><td>overcome difficulties</td></tr><tr><td>participate</td><td>v.</td><td>参加</td><td>participate in</td></tr><tr><td>perform</td><td>v.</td><td>表现；执行</td><td>perform well</td></tr><tr><td>persuade</td><td>v.</td><td>说服</td><td>persuade sb to do</td></tr><tr><td>prevent</td><td>v.</td><td>阻止</td><td>prevent sb from doing</td></tr><tr><td>promote</td><td>v.</td><td>促进；晋升</td><td>promote growth</td></tr><tr><td>pursue</td><td>v.</td><td>追求</td><td>pursue a career</td></tr><tr><td>recommend</td><td>v.</td><td>推荐</td><td>recommend doing</td></tr><tr><td>reduce</td><td>v.</td><td>减少</td><td>reduce costs</td></tr><tr><td>reflect</td><td>v.</td><td>反映；反思</td><td>reflect the trend</td></tr><tr><td>remain</td><td>v.</td><td>仍然是</td><td>remain unchanged</td></tr><tr><td>require</td><td>v.</td><td>需要</td><td>require attention</td></tr><tr><td>respond</td><td>v.</td><td>回应</td><td>respond to</td></tr><tr><td>reveal</td><td>v.</td><td>揭示</td><td>reveal the truth</td></tr><tr><td>struggle</td><td>v.</td><td>挣扎；努力</td><td>struggle with</td></tr><tr><td>suffer</td><td>v.</td><td>遭受</td><td>suffer from</td></tr><tr><td>survive</td><td>v.</td><td>幸存；挺过</td><td>survive the crisis</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="grp" id="g2">
+      <div class="grp-head" style="--c:#7aa2f7">
+        <div class="grp-no">02</div>
+        <div>
+          <h2>名词：社会议题与职场场景</h2>
+          <p class="grp-note">阅读题材集中在教育、就业、健康、环保、科技五类。这批词几乎每套真题都会碰到 10 个以上。</p>
+        </div>
+        <div class="grp-count">55<small>词</small></div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="">
+          <thead><tr><th>单词</th><th>词性</th><th>释义</th><th>常见搭配</th></tr></thead>
+          <tbody><tr><td>access</td><td>n.</td><td>使用权；通道</td><td>access to information</td></tr><tr><td>advantage</td><td>n.</td><td>优势</td><td>take advantage of</td></tr><tr><td>attitude</td><td>n.</td><td>态度</td><td>attitude towards work</td></tr><tr><td>authority</td><td>n.</td><td>权威；当局</td><td>local authorities</td></tr><tr><td>balance</td><td>n.</td><td>平衡</td><td>work-life balance</td></tr><tr><td>benefit</td><td>n.</td><td>益处</td><td>benefit from</td></tr><tr><td>budget</td><td>n.</td><td>预算</td><td>on a tight budget</td></tr><tr><td>burden</td><td>n.</td><td>负担</td><td>a financial burden</td></tr><tr><td>capacity</td><td>n.</td><td>能力；容量</td><td>the capacity to do</td></tr><tr><td>challenge</td><td>n.</td><td>挑战</td><td>face a challenge</td></tr><tr><td>circumstance</td><td>n.</td><td>情况</td><td>under no circumstances</td></tr><tr><td>community</td><td>n.</td><td>社区</td><td>the local community</td></tr><tr><td>consequence</td><td>n.</td><td>后果</td><td>as a consequence</td></tr><tr><td>consumer</td><td>n.</td><td>消费者</td><td>consumer behavior</td></tr><tr><td>contribution</td><td>n.</td><td>贡献</td><td>make a contribution to</td></tr><tr><td>crisis</td><td>n.</td><td>危机</td><td>an economic crisis</td></tr><tr><td>custom</td><td>n.</td><td>习俗</td><td>local customs</td></tr><tr><td>demand</td><td>n.</td><td>需求</td><td>in great demand</td></tr><tr><td>detail</td><td>n.</td><td>细节</td><td>in detail</td></tr><tr><td>economy</td><td>n.</td><td>经济</td><td>the local economy</td></tr><tr><td>efficiency</td><td>n.</td><td>效率</td><td>improve efficiency</td></tr><tr><td>effort</td><td>n.</td><td>努力</td><td>make every effort</td></tr><tr><td>emotion</td><td>n.</td><td>情绪</td><td>control one's emotions</td></tr><tr><td>evidence</td><td>n.</td><td>证据</td><td>scientific evidence</td></tr><tr><td>expense</td><td>n.</td><td>开支</td><td>living expenses</td></tr><tr><td>factor</td><td>n.</td><td>因素</td><td>a key factor</td></tr><tr><td>feature</td><td>n.</td><td>特点</td><td>a common feature</td></tr><tr><td>feedback</td><td>n.</td><td>反馈</td><td>give feedback</td></tr><tr><td>gap</td><td>n.</td><td>差距</td><td>the generation gap</td></tr><tr><td>impact</td><td>n.</td><td>影响（名词）</td><td>have an impact on</td></tr><tr><td>issue</td><td>n.</td><td>问题；议题</td><td>a social issue</td></tr><tr><td>majority</td><td>n.</td><td>大多数</td><td>the majority of</td></tr><tr><td>method</td><td>n.</td><td>方法</td><td>a practical method</td></tr><tr><td>opportunity</td><td>n.</td><td>机会</td><td>seize an opportunity</td></tr><tr><td>outcome</td><td>n.</td><td>结果</td><td>the final outcome</td></tr><tr><td>performance</td><td>n.</td><td>表现</td><td>academic performance</td></tr><tr><td>phenomenon</td><td>n.</td><td>现象</td><td>a social phenomenon</td></tr><tr><td>policy</td><td>n.</td><td>政策</td><td>a new policy</td></tr><tr><td>pressure</td><td>n.</td><td>压力</td><td>under pressure</td></tr><tr><td>principle</td><td>n.</td><td>原则</td><td>in principle</td></tr><tr><td>priority</td><td>n.</td><td>优先事项</td><td>top priority</td></tr><tr><td>process</td><td>n.</td><td>过程</td><td>in the process of</td></tr><tr><td>profit</td><td>n.</td><td>利润</td><td>make a profit</td></tr><tr><td>purpose</td><td>n.</td><td>目的</td><td>on purpose</td></tr><tr><td>quality</td><td>n.</td><td>质量</td><td>quality of life</td></tr><tr><td>resource</td><td>n.</td><td>资源</td><td>natural resources</td></tr><tr><td>responsibility</td><td>n.</td><td>责任</td><td>take responsibility for</td></tr><tr><td>risk</td><td>n.</td><td>风险</td><td>at the risk of</td></tr><tr><td>strategy</td><td>n.</td><td>策略</td><td>a marketing strategy</td></tr><tr><td>stress</td><td>n.</td><td>压力</td><td>relieve stress</td></tr><tr><td>survey</td><td>n.</td><td>调查</td><td>according to a survey</td></tr><tr><td>tendency</td><td>n.</td><td>趋势</td><td>a growing tendency</td></tr><tr><td>trend</td><td>n.</td><td>趋势</td><td>a rising trend</td></tr><tr><td>welfare</td><td>n.</td><td>福利</td><td>social welfare</td></tr><tr><td>workplace</td><td>n.</td><td>工作场所</td><td>in the workplace</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="grp" id="g3">
+      <div class="grp-head" style="--c:#f7b267">
+        <div class="grp-no">03</div>
+        <div>
+          <h2>形容词 / 副词：态度题的钥匙</h2>
+          <p class="grp-note">阅读和听力里大量态度题（positive / negative / neutral），这类词决定你能不能判断作者立场。</p>
+        </div>
+        <div class="grp-count">43<small>词</small></div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="">
+          <thead><tr><th>单词</th><th>词性</th><th>释义</th><th>常见搭配</th></tr></thead>
+          <tbody><tr><td>adequate</td><td>adj.</td><td>足够的</td><td>adequate time</td></tr><tr><td>appropriate</td><td>adj.</td><td>合适的</td><td>appropriate for</td></tr><tr><td>available</td><td>adj.</td><td>可获得的</td><td>be available to</td></tr><tr><td>aware</td><td>adj.</td><td>意识到的</td><td>be aware of</td></tr><tr><td>beneficial</td><td>adj.</td><td>有益的</td><td>beneficial to health</td></tr><tr><td>capable</td><td>adj.</td><td>有能力的</td><td>be capable of</td></tr><tr><td>complex</td><td>adj.</td><td>复杂的</td><td>a complex problem</td></tr><tr><td>considerable</td><td>adj.</td><td>相当大的</td><td>a considerable amount of</td></tr><tr><td>convenient</td><td>adj.</td><td>方便的</td><td>convenient for sb</td></tr><tr><td>crucial</td><td>adj.</td><td>关键的</td><td>play a crucial role</td></tr><tr><td>efficient</td><td>adj.</td><td>高效的</td><td>an efficient way</td></tr><tr><td>essential</td><td>adj.</td><td>必不可少的</td><td>essential to success</td></tr><tr><td>eventually</td><td>adv.</td><td>最终</td><td>eventually realize</td></tr><tr><td>evident</td><td>adj.</td><td>明显的</td><td>it is evident that</td></tr><tr><td>excessive</td><td>adj.</td><td>过度的</td><td>excessive pressure</td></tr><tr><td>frequent</td><td>adj.</td><td>频繁的</td><td>frequent visits</td></tr><tr><td>gradually</td><td>adv.</td><td>逐渐地</td><td>gradually improve</td></tr><tr><td>immediate</td><td>adj.</td><td>立即的</td><td>take immediate action</td></tr><tr><td>inevitable</td><td>adj.</td><td>不可避免的</td><td>an inevitable result</td></tr><tr><td>initially</td><td>adv.</td><td>起初</td><td>initially oppose</td></tr><tr><td>likely</td><td>adj.</td><td>可能的</td><td>be likely to do</td></tr><tr><td>negative</td><td>adj.</td><td>负面的</td><td>a negative effect</td></tr><tr><td>obvious</td><td>adj.</td><td>明显的</td><td>for obvious reasons</td></tr><tr><td>optimistic</td><td>adj.</td><td>乐观的</td><td>optimistic about</td></tr><tr><td>particular</td><td>adj.</td><td>特定的</td><td>in particular</td></tr><tr><td>positive</td><td>adj.</td><td>积极的</td><td>a positive attitude</td></tr><tr><td>potential</td><td>adj.</td><td>潜在的</td><td>potential customers</td></tr><tr><td>practical</td><td>adj.</td><td>实用的</td><td>practical experience</td></tr><tr><td>previous</td><td>adj.</td><td>之前的</td><td>the previous year</td></tr><tr><td>primary</td><td>adj.</td><td>主要的</td><td>the primary reason</td></tr><tr><td>rarely</td><td>adv.</td><td>很少</td><td>rarely mention</td></tr><tr><td>reasonable</td><td>adj.</td><td>合理的</td><td>a reasonable price</td></tr><tr><td>relatively</td><td>adv.</td><td>相对地</td><td>relatively low</td></tr><tr><td>reliable</td><td>adj.</td><td>可靠的</td><td>reliable information</td></tr><tr><td>remarkable</td><td>adj.</td><td>显著的</td><td>a remarkable change</td></tr><tr><td>severe</td><td>adj.</td><td>严重的</td><td>severe weather</td></tr><tr><td>significant</td><td>adj.</td><td>重要的；显著的</td><td>a significant difference</td></tr><tr><td>sufficient</td><td>adj.</td><td>充足的</td><td>sufficient evidence</td></tr><tr><td>typical</td><td>adj.</td><td>典型的</td><td>a typical example</td></tr><tr><td>urgent</td><td>adj.</td><td>紧急的</td><td>an urgent need</td></tr><tr><td>various</td><td>adj.</td><td>各种各样的</td><td>various reasons</td></tr><tr><td>vital</td><td>adj.</td><td>至关重要的</td><td>play a vital role</td></tr><tr><td>widespread</td><td>adj.</td><td>广泛的</td><td>widespread concern</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="grp" id="g4">
+      <div class="grp-head" style="--c:#7ec699">
+        <div class="grp-no">04</div>
+        <div>
+          <h2>写作：18 个能直接用的表达</h2>
+          <p class="grp-note">作文不需要华丽，需要"结构清晰 + 零语法错误"。这 18 条背熟，开头段和结尾段基本够用。</p>
+        </div>
+        <div class="grp-count">18<small>词</small></div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="two-col">
+          <thead><tr><th>表达</th><th>中文</th></tr></thead>
+          <tbody><tr><td>in addition</td><td>此外（递进）</td></tr><tr><td>furthermore</td><td>而且；此外</td></tr><tr><td>nevertheless</td><td>尽管如此（转折）</td></tr><tr><td>therefore</td><td>因此</td></tr><tr><td>as a result</td><td>结果</td></tr><tr><td>in contrast</td><td>相比之下</td></tr><tr><td>for instance</td><td>例如</td></tr><tr><td>above all</td><td>最重要的是</td></tr><tr><td>to some extent</td><td>在某种程度上</td></tr><tr><td>in terms of</td><td>就……而言</td></tr><tr><td>play a vital role in</td><td>在……中起关键作用</td></tr><tr><td>have a profound impact on</td><td>对……有深远影响</td></tr><tr><td>attach importance to</td><td>重视</td></tr><tr><td>take effective measures to</td><td>采取有效措施去</td></tr><tr><td>It is widely acknowledged that</td><td>人们普遍认为</td></tr><tr><td>From my perspective</td><td>在我看来</td></tr><tr><td>Only in this way can we</td><td>只有这样我们才能</td></tr><tr><td>not only ... but also</td><td>不仅……而且</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="grp" id="g5">
+      <div class="grp-head" style="--c:#c792ea">
+        <div class="grp-no">05</div>
+        <div>
+          <h2>翻译：中国文化与社会主题词</h2>
+          <p class="grp-note">四级翻译几乎固定在传统文化、经济发展、教育环保三类。这些词不会写，整段就只能靠意译硬凑。</p>
+        </div>
+        <div class="grp-count">18<small>词</small></div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="two-col">
+          <thead><tr><th>中文对照</th><th>释义</th></tr></thead>
+          <tbody><tr><td>heritage</td><td>遗产</td></tr><tr><td>cultural relic</td><td>文物</td></tr><tr><td>dynasty</td><td>朝代</td></tr><tr><td>civilization</td><td>文明</td></tr><tr><td>cuisine</td><td>烹饪；菜肴</td></tr><tr><td>handicraft</td><td>手工艺</td></tr><tr><td>architecture</td><td>建筑</td></tr><tr><td>calligraphy</td><td>书法</td></tr><tr><td>porcelain</td><td>瓷器</td></tr><tr><td>silk</td><td>丝绸</td></tr><tr><td>philosophy</td><td>哲学</td></tr><tr><td>rural</td><td>农村的</td></tr><tr><td>urban</td><td>城市的</td></tr><tr><td>infrastructure</td><td>基础设施</td></tr><tr><td>sustainable</td><td>可持续的</td></tr><tr><td>globalization</td><td>全球化</td></tr><tr><td>innovation</td><td>创新</td></tr><tr><td>poverty alleviation</td><td>扶贫</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="grp" id="g6">
+      <div class="grp-head" style="--c:#f2777a">
+        <div class="grp-no">06</div>
+        <div>
+          <h2>易混词：12 组，考场送分点</h2>
+          <p class="grp-note">选词填空和仔细阅读最爱在这里设陷阱。看一遍不够，考前再看一遍。</p>
+        </div>
+        <div class="grp-count">12<small>词</small></div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="two-col">
+          <thead><tr><th>易混组</th><th>区分要点</th></tr></thead>
+          <tbody><tr><td>adapt / adopt</td><td>adapt 适应、改编（adapt to）；adopt 采纳、收养（adopt a policy）</td></tr><tr><td>affect / effect</td><td>affect 是动词"影响"；effect 是名词"影响"（have an effect on）</td></tr><tr><td>principal / principle</td><td>principal 主要的、校长；principle 原则、原理</td></tr><tr><td>economic / economical</td><td>economic 经济的（economic growth）；economical 省钱的</td></tr><tr><td>historic / historical</td><td>historic 有历史意义的；historical 与历史有关的</td></tr><tr><td>sensible / sensitive</td><td>sensible 明智的；sensitive 敏感的（sensitive to）</td></tr><tr><td>considerable / considerate</td><td>considerable 相当大的；considerate 体贴的</td></tr><tr><td>respectful / respectable</td><td>respectful 恭敬的；respectable 体面的</td></tr><tr><td>complement / compliment</td><td>complement 补充、互补；compliment 赞美</td></tr><tr><td>ensure / assure</td><td>ensure 确保（ensure safety）；assure 使某人放心（assure sb）</td></tr><tr><td>rise / raise</td><td>rise 不及物（价格上升）；raise 及物（raise prices）</td></tr><tr><td>imply / infer</td><td>imply 作者暗示；infer 读者推断</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+  <div class="plan">
+    <h3>14 天过完一遍，然后只回滚错词</h3>
+    <p class="pnote">每天约 30 个，配你现有规划的 25 分钟背词时段刚好。</p>
+    <table><tbody><tr><td class='d'>Day 1–2</td><td>动词 1–35</td><td>先过一遍，划掉已经认识的一半</td></tr><tr><td class='d'>Day 3–4</td><td>动词 36–70</td><td>只记搭配，不背第二释义</td></tr><tr><td class='d'>Day 5–7</td><td>名词 55 个</td><td>按题材联想：就业、教育、环保</td></tr><tr><td class='d'>Day 8–9</td><td>形容词 43 个</td><td>重点记态度词的正负向</td></tr><tr><td class='d'>Day 10</td><td>写作 18 条</td><td>抄写一遍，套进一篇作文</td></tr><tr><td class='d'>Day 11</td><td>翻译主题词</td><td>每个词自己造半句</td></tr><tr><td class='d'>Day 12</td><td>易混 12 组</td><td>只做对比记忆，不单独背</td></tr><tr><td class='d'>Day 13–14</td><td>全部回滚</td><td>遮住中文自测，错两次的抄到本子上</td></tr></tbody></table>
+  </div>
+
+  <div class="warn">
+    <b>三条使用建议：</b>① 第一遍只求“看到认识”，别强求拼写，写作词才需要会写；② 遮住中文自测，错两次的词单独抄到一张纸上，那就是你真正的词表；③ 词表不能替代真题——背完当天就去做一篇阅读，把新词在真题里撞见一次，记忆强度完全不一样。
+  </div>
+
+  <footer>
+    <span>CET-4 高频词表 · 与备考规划配套使用</span>
+    <span>共 215 条 · 建议打印后勾选</span>
+  </footer>
+</div>
+
+<script>
+  var q = document.getElementById('q');
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.grp tbody tr'));
+  var cnt = document.getElementById('cnt');
+  function update(){
+    var v = q.value.trim().toLowerCase();
+    var n = 0;
+    rows.forEach(function(r){
+      var hit = !v || r.textContent.toLowerCase().indexOf(v) > -1;
+      r.classList.toggle('hide', !hit);
+      if(hit) n++;
+    });
+    cnt.textContent = v ? '命中 ' + n + ' 条' : '共 215 条';
+  }
+  q.addEventListener('input', update);
+  update();
+</script>
+</body>
+</html>
