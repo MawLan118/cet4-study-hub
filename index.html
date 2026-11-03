@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>四级学习中心</title>
+<style>
+  :root{
+    --bg:#0b0e13; --card:#151c26; --card2:#1b232f; --line:#28323f;
+    --txt:#e9eff8; --txt2:#a3b2c6; --txt3:#6d7d93;
+    --ok:#4ecdc4; --blue:#5aa9e6; --warm:#f7b267; --purple:#c792ea;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{
+    background:
+      radial-gradient(1000px 560px at 50% -14%, #1a2433 0%, transparent 60%),
+      radial-gradient(760px 460px at 92% 108%, #16202c 0%, transparent 58%),
+      var(--bg);
+    color:var(--txt);
+    font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",-apple-system,"Segoe UI",sans-serif;
+    display:flex; flex-direction:column; align-items:center;
+    padding:64px 20px 70px; min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{width:100%;max-width:860px;}
+
+  /* ---------- header ---------- */
+  header{text-align:center;margin-bottom:48px;}
+  .badge{
+    display:inline-block;font-size:11px;letter-spacing:.2em;color:var(--ok);
+    border:1px solid rgba(78,205,196,.35);background:rgba(78,205,196,.08);
+    padding:5px 13px;border-radius:999px;margin-bottom:20px;
+  }
+  h1{
+    font-size:clamp(30px,6vw,44px);font-weight:800;letter-spacing:-.5px;line-height:1.3;
+  }
+  h1 span{
+    background:linear-gradient(100deg,var(--ok),var(--blue));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .sub{margin-top:14px;font-size:14px;color:var(--txt2);line-height:1.8;}
+  .sub b{color:var(--txt);font-weight:600;}
+  .count{margin-top:10px;font-size:12px;color:var(--txt3);font-variant-numeric:tabular-nums;}
+
+  /* ---------- main cards ---------- */
+  .projects{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  a.proj{
+    display:block;text-decoration:none;color:inherit;
+    background:linear-gradient(180deg,var(--card2),var(--card));
+    border:1px solid var(--line);border-radius:20px;padding:28px 24px 24px;
+    position:relative;overflow:hidden;
+    transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  }
+  a.proj:hover{
+    transform:translateY(-4px);
+    border-color:var(--c);
+    box-shadow:0 22px 48px -26px rgba(0,0,0,.95), 0 0 0 1px var(--c) inset;
+  }
+  a.proj::before{
+    content:"";position:absolute;inset:0 0 auto 0;height:3px;
+    background:linear-gradient(90deg,var(--c),transparent 80%);
+    opacity:.85;
+  }
+  .icon{
+    width:52px;height:52px;border-radius:14px;display:grid;place-items:center;
+    margin-bottom:18px;font-size:24px;font-weight:800;
+    background:color-mix(in srgb, var(--c) 14%, transparent);
+    border:1px solid color-mix(in srgb, var(--c) 40%, transparent);
+    color:var(--c);
+    font-family:ui-monospace,Consolas,monospace;
+  }
+  .proj h2{font-size:19px;font-weight:800;letter-spacing:.02em;display:flex;align-items:center;gap:8px;}
+  .proj h2 .go{
+    font-size:11px;color:var(--c);border:1px solid color-mix(in srgb, var(--c) 45%, transparent);
+    border-radius:999px;padding:2px 9px;font-weight:600;letter-spacing:.06em;
+    opacity:0;transform:translateX(-4px);transition:.18s;
+  }
+  a.proj:hover .go{opacity:1;transform:none;}
+  .proj .tag{font-size:11px;color:var(--txt3);letter-spacing:.1em;margin-top:3px;}
+  .proj p{margin-top:14px;font-size:13px;color:var(--txt2);line-height:1.8;}
+  .proj p b{color:var(--txt);font-weight:600;}
+  .proj .foot{
+    margin-top:18px;padding-top:14px;border-top:1px solid var(--line);
+    font-size:11.5px;color:var(--txt3);display:flex;justify-content:space-between;align-items:center;
+  }
+  .proj .foot .dots{letter-spacing:3px;color:color-mix(in srgb, var(--c) 70%, #334);font-size:10px;}
+  .ext{font-size:10.5px;color:var(--txt3);}
+
+  /* ---------- extras ---------- */
+  .extras{margin-top:26px;border:1px solid var(--line);border-radius:16px;background:var(--card);padding:6px 8px;}
+  .extras .row{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:11px;transition:.15s;}
+  .extras .row:hover{background:rgba(255,255,255,.03);}
+  .extras .row + .row{border-top:1px solid rgba(40,50,63,.55);}
+  .extras .dot{width:8px;height:8px;border-radius:50%;background:var(--c);flex:none;opacity:.9;}
+  .extras .name{font-size:13.5px;font-weight:600;color:var(--txt);white-space:nowrap;}
+  .extras .desc{font-size:12px;color:var(--txt3);margin-left:auto;text-align:right;line-height:1.5;}
+  .extras a{color:inherit;text-decoration:none;display:flex;align-items:center;gap:14px;width:100%;}
+
+  footer{margin-top:46px;text-align:center;font-size:11.5px;color:#4b586b;line-height:1.9;}
+
+  @media(max-width:640px){
+    body{padding:40px 16px 50px;}
+    .projects{grid-template-columns:1fr;}
+    .proj{padding:24px 20px 20px;}
+    .extras .desc{display:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="badge">CET-4 · STUDY HUB</div>
+    <h1>四级<span>学习中心</span></h1>
+    <p class="sub">两个工具，两种记忆通道：<b>听写</b>练「听音辨词 + 拼写」,<b>打字</b>练「眼看手打 + 肌肉记忆」。<br>每天先听写 20 分钟，再用打字巩固同一批词，记得最牢。</p>
+    <div class="count">词库 185 词 · 距 12 月四级笔试（预计 12/19）还有 46 天</div>
+  </header>
+
+  <div class="projects">
+    <a class="proj" style="--c:var(--ok)" href="quiz.html">
+      <div class="icon">C4</div>
+      <h2>四级单词听写 <span class="go">进入</span></h2>
+      <div class="tag">本地 · 听音拼写训练</div>
+      <p>屏幕只出<b>中文</b>，英式发音读一遍英文，你来拼出来。输错不限次数，<b>错词本</b>自动收词，巩固复习答对才移除。</p>
+      <div class="foot"><span>185 词 · 进度本地保存</span><span class="dots">●●●</span></div>
+    </a>
+
+    <a class="proj" style="--c:var(--blue)" href="https://qwerty.kaiyi.cool/" target="_blank" rel="noopener">
+      <div class="icon">Qw</div>
+      <h2>Qwerty Learner <span class="go">跳转 ↗</span></h2>
+      <div class="tag">在线 · 打字背词</div>
+      <p>为键盘工作者设计的<b>单词 + 肌肉记忆</b>工具：词出现在屏幕上，跟着敲一遍，实时统计 WPM 和正确率。</p>
+      <div class="foot"><span>qwerty.kaiyi.cool</span><span class="ext">外部网站 ↗</span></div>
+    </a>
+  </div>
+
+  <div class="extras">
+    <a class="row" style="--c:var(--warm)" href="wordlist.html">
+      <span class="dot"></span>
+      <span class="name">高频词表</span>
+      <span class="desc">215 条核心词 · 可搜索可打印，配 14 天背诵节奏</span>
+    </a>
+    <a class="row" style="--c:var(--purple)" href="plan.html">
+      <span class="dot"></span>
+      <span class="name">备考规划</span>
+      <span class="desc">46 天三段式计划 · 每日 2 小时时间块 · 题型策略</span>
+    </a>
+    <a class="row" style="--c:var(--ok)" href="wordlist.csv" download>
+      <span class="dot"></span>
+      <span class="name">词表 CSV</span>
+      <span class="desc">下载后可导入墨墨 / Anki 等背词 APP</span>
+    </a>
+  </div>
+
+  <footer>
+    听写练耳，打字练手，真题练心 · 祝 12 月一次过<br>
+    CET-4 Study Hub
+  </footer>
+
+</div>
+</body>
+</html>
