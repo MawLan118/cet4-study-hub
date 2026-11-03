@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CET-4 备考规划 · 2026年12月</title>
+<style>
+  :root{
+    --bg:#0d1014; --bg2:#131820; --card:#171d27; --card2:#1d2530;
+    --line:#2a3442; --txt:#e8eef7; --txt2:#a3b1c4; --txt3:#6f7f94;
+    --accent:#4ecdc4; --accent2:#7aa2f7; --warm:#f7b267; --red:#f2777a; --green:#7ec699;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    background:radial-gradient(1200px 600px at 15% -10%, #1b2534 0%, var(--bg) 55%) no-repeat, var(--bg);
+    color:var(--txt);
+    font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",-apple-system,"Segoe UI",sans-serif;
+    line-height:1.7; padding:48px 24px 80px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;}
+
+  /* header */
+  header{margin-bottom:44px;position:relative;}
+  .kicker{
+    display:inline-block;font-size:12px;letter-spacing:.18em;color:var(--accent);
+    border:1px solid rgba(78,205,196,.35);background:rgba(78,205,196,.08);
+    padding:5px 12px;border-radius:999px;margin-bottom:18px;text-transform:uppercase;
+  }
+  h1{font-size:40px;line-height:1.25;font-weight:800;letter-spacing:-.5px;}
+  h1 span{background:linear-gradient(100deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin-top:14px;color:var(--txt2);font-size:15px;max-width:720px;}
+
+  .countdown{
+    display:flex;gap:14px;flex-wrap:wrap;margin-top:26px;
+  }
+  .cd-item{
+    flex:1;min-width:150px;background:linear-gradient(180deg,var(--card2),var(--card));
+    border:1px solid var(--line);border-radius:14px;padding:16px 18px;
+  }
+  .cd-num{font-size:28px;font-weight:800;color:var(--txt);font-variant-numeric:tabular-nums;}
+  .cd-num small{font-size:13px;font-weight:600;color:var(--txt3);margin-left:4px;}
+  .cd-lab{font-size:12px;color:var(--txt3);letter-spacing:.05em;margin-top:2px;}
+
+  /* section */
+  section{margin-top:52px;}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:22px;border-bottom:1px solid var(--line);padding-bottom:12px;}
+  .sec-num{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.1em;}
+  h2{font-size:21px;font-weight:700;letter-spacing:.5px;}
+  .sec-note{margin-left:auto;font-size:12px;color:var(--txt3);}
+
+  /* phase cards */
+  .phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
+  .phase{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 20px;
+    position:relative;overflow:hidden;
+  }
+  .phase::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--accent);}
+  .phase.p2::before{background:var(--accent2);}
+  .phase.p3::before{background:var(--warm);}
+  .phase.p4::before{background:var(--red);}
+  .p-tag{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--txt3);text-transform:uppercase;}
+  .p-title{font-size:17px;font-weight:700;margin:6px 0 4px;}
+  .p-date{font-size:12px;color:var(--accent);margin-bottom:14px;font-variant-numeric:tabular-nums;}
+  .phase.p2 .p-date{color:var(--accent2);} .phase.p3 .p-date{color:var(--warm);} .phase.p4 .p-date{color:var(--red);}
+  .phase ul{list-style:none;font-size:13.5px;color:var(--txt2);}
+  .phase li{padding-left:16px;position:relative;margin-bottom:7px;}
+  .phase li::before{content:"";position:absolute;left:2px;top:10px;width:5px;height:5px;border-radius:50%;background:var(--txt3);}
+
+  /* table */
+  .tbl-wrap{border:1px solid var(--line);border-radius:14px;overflow:hidden;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  thead th{
+    background:var(--card2);color:var(--txt3);font-size:11.5px;letter-spacing:.1em;
+    text-transform:uppercase;font-weight:700;text-align:left;padding:12px 16px;
+    border-bottom:1px solid var(--line);white-space:nowrap;
+  }
+  tbody td{padding:14px 16px;border-bottom:1px solid rgba(42,52,66,.6);vertical-align:top;color:var(--txt2);}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:rgba(78,205,196,.04);}
+  tbody td:first-child{color:var(--txt);font-weight:600;white-space:nowrap;}
+  .wk{display:inline-block;font-size:11px;font-weight:700;color:var(--accent);background:rgba(78,205,196,.1);padding:2px 8px;border-radius:6px;}
+  .hi{color:var(--txt);font-weight:600;}
+
+  /* daily timeline */
+  .day{display:flex;flex-direction:column;gap:10px;}
+  .slot{
+    display:grid;grid-template-columns:92px 1fr auto;gap:16px;align-items:center;
+    background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;
+  }
+  .slot-time{font-size:12.5px;color:var(--txt3);font-variant-numeric:tabular-nums;font-weight:600;}
+  .slot-txt{font-size:14px;}
+  .slot-txt b{color:var(--txt);}
+  .slot-txt em{display:block;font-style:normal;font-size:12.5px;color:var(--txt3);margin-top:2px;}
+  .bar{height:6px;width:80px;background:#232c38;border-radius:99px;overflow:hidden;}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px;}
+
+  /* score */
+  .score{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
+  .sc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;}
+  .sc-top{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--txt2);}
+  .sc-top b{color:var(--txt);font-size:15px;}
+  .sc-track{height:8px;background:#232c38;border-radius:99px;margin:12px 0 8px;overflow:hidden;}
+  .sc-track i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent2));}
+  .sc-foot{font-size:11.5px;color:var(--txt3);display:flex;justify-content:space-between;}
+
+  /* tips */
+  .tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;}
+  .tip{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--warm);border-radius:12px;padding:16px 18px;}
+  .tip h4{font-size:14px;margin-bottom:8px;color:var(--txt);}
+  .tip p{font-size:13px;color:var(--txt2);}
+  .tip code{font-family:ui-monospace,Consolas,monospace;font-size:12px;background:#0b0e13;border:1px solid var(--line);padding:1px 5px;border-radius:4px;color:var(--accent);}
+
+  .warn{background:linear-gradient(180deg,rgba(242,119,122,.1),rgba(242,119,122,.03));border:1px solid rgba(242,119,122,.3);border-radius:14px;padding:20px 22px;}
+  .warn h4{font-size:14px;color:var(--red);margin-bottom:10px;}
+  .warn ul{list-style:none;font-size:13.5px;color:var(--txt2);}
+  .warn li{padding-left:18px;position:relative;margin-bottom:8px;}
+  .warn li::before{content:"×";position:absolute;left:2px;color:var(--red);font-weight:700;}
+
+  footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-size:12px;color:var(--txt3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+
+  @media (max-width:640px){
+    body{padding:32px 16px 60px;}
+    h1{font-size:28px;}
+    .slot{grid-template-columns:70px 1fr;}
+    .bar{display:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">CET-4 · Study Plan</div>
+    <h1>12 月四级备考规划<br><span>46 天，三段式推进</span></h1>
+    <p class="sub">按每天约 2 小时设计：先筑基（词汇 + 精听），再专项（阅读 / 写作 / 翻译），最后全真模拟。真题为王，错题本贯穿全程。</p>
+    <div class="countdown">
+      <div class="cd-item"><div class="cd-num">46<small>天</small></div><div class="cd-lab">距笔试（预计 12/19）</div></div>
+      <div class="cd-item"><div class="cd-num">6.5<small>周</small></div><div class="cd-lab">有效备考周期</div></div>
+      <div class="cd-item"><div class="cd-num">12<small>套</small></div><div class="cd-lab">真题目标（近 5 年）</div></div>
+      <div class="cd-item"><div class="cd-num">435<small>分</small></div><div class="cd-lab">目标分（425 过线）</div></div>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2>三个阶段，各有主攻</h2><span class="sec-note">别跳阶段，跳了就得返工</span></div>
+    <div class="phases">
+      <div class="phase p1">
+        <div class="p-tag">Phase 1</div>
+        <div class="p-title">筑基期 · 把地基打平</div>
+        <div class="p-date">11/03 — 11/22 ｜ 20 天</div>
+        <ul>
+          <li>词汇：每天 40 新词 + 复习，累计核心词 2000+</li>
+          <li>听力：每天精听 1 篇短篇新闻，逐句听写 + 跟读</li>
+          <li>语法：每天拆 2 个长难句，找主谓宾</li>
+          <li>周末：1 套真题，不计时，重在逐题分析</li>
+        </ul>
+      </div>
+      <div class="phase p2">
+        <div class="p-tag">Phase 2</div>
+        <div class="p-title">强化期 · 按题型拿分</div>
+        <div class="p-date">11/23 — 12/12 ｜ 20 天</div>
+        <ul>
+          <li>阅读三题型轮流专攻：选词填空 → 长篇匹配 → 仔细阅读</li>
+          <li>听力整套限时，训练预读选项的速度</li>
+          <li>写作：固化 3 类模板，每周写 2 篇并批改</li>
+          <li>翻译：每周 3 段，积累中国文化 / 社会高频表达</li>
+          <li>每周 1 套真题限时，周末复盘</li>
+        </ul>
+      </div>
+      <div class="phase p3">
+        <div class="p-tag">Phase 3</div>
+        <div class="p-title">冲刺期 · 模拟 + 回炉</div>
+        <div class="p-date">12/13 — 12/18 ｜ 6 天</div>
+        <ul>
+          <li>3 套全真模拟，严格按 9:00—11:20 走流程</li>
+          <li>错题本三刷，只看错过两遍以上的题</li>
+          <li>写作模板默写，翻译高频词过一遍</li>
+          <li>考前一天只复习不做新题，早睡</li>
+        </ul>
+      </div>
+      <div class="phase p4">
+        <div class="p-tag">Exam Day</div>
+        <div class="p-title">考试当天 · 稳住节奏</div>
+        <div class="p-date">12/19（周六，以官方为准）</div>
+        <ul>
+          <li>提前 40 分钟到考场，带齐准考证 / 身份证 / 耳机</li>
+          <li>写作 30 分钟先写，别留到最后</li>
+          <li>听力结束立刻收答题卡，边听边涂</li>
+          <li>阅读按 选词 → 仔细 → 匹配 的顺序，先拿稳的分</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2>六周周计划</h2><span class="sec-note">每周只盯一个重点</span></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>周次</th><th>时间</th><th>本周重点</th><th>周末任务</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="wk">W1</span></td><td>11/03–11/09</td><td><span class="hi">词汇启动 + 听力入门</span><br>背词节奏跑通，短篇新闻听懂大意即可</td><td>真题 1 套（不计时）+ 建错题本</td></tr>
+          <tr><td><span class="wk">W2</span></td><td>11/10–11/16</td><td><span class="hi">精听升级 + 长难句</span><br>开始逐句听写，每天 2 句结构拆解</td><td>真题 1 套 + 听力原文跟读 3 遍</td></tr>
+          <tr><td><span class="wk">W3</span></td><td>11/17–11/23</td><td><span class="hi">阅读起步 · 选词填空</span><br>先判词性再选词，正确率比速度重要</td><td>真题 1 套（阅读部分限时）</td></tr>
+          <tr><td><span class="wk">W4</span></td><td>11/24–11/30</td><td><span class="hi">仔细阅读 + 写作模板</span><br>练定位句与同义替换，背熟议论文框架</td><td>真题 1 套（全卷限时）+ 作文 1 篇</td></tr>
+          <tr><td><span class="wk">W5</span></td><td>12/01–12/07</td><td><span class="hi">长篇匹配 + 翻译</span><br>题干关键词扫读，翻译先抓主干</td><td>真题 1 套 + 翻译 3 段</td></tr>
+          <tr><td><span class="wk">W6</span></td><td>12/08–12/14</td><td><span class="hi">整卷模考 · 找时间漏洞</span><br>严格计时，记录每部分耗时</td><td>全真模拟 2 套，当天复盘</td></tr>
+          <tr><td><span class="wk">W7</span></td><td>12/15–12/18</td><td><span class="hi">错题回炉 + 状态调整</span><br>只做已错题，不再碰新题</td><td>考前 1 天轻复习，早睡</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2>每日 2 小时怎么切</h2><span class="sec-note">碎片时间背词，整块时间精听与阅读</span></div>
+    <div class="day">
+      <div class="slot">
+        <div class="slot-time">25 分钟</div>
+        <div class="slot-txt"><b>单词</b>：40 个新词 + 昨日复习<em>用 APP 刷，通勤 / 排队也能完成，这是最容易挤出来的时间</em></div>
+        <div class="bar"><i style="width:22%"></i></div>
+      </div>
+      <div class="slot">
+        <div class="slot-time">35 分钟</div>
+        <div class="slot-txt"><b>听力精听</b>：1 篇真题材料，听 → 听写 → 对原文 → 跟读<em>重点不是"听懂多少"，而是找出听不清的那几个词为什么听不清</em></div>
+        <div class="bar"><i style="width:30%"></i></div>
+      </div>
+      <div class="slot">
+        <div class="slot-time">40 分钟</div>
+        <div class="slot-txt"><b>阅读 / 翻译轮换</b>：单日阅读，双日翻译<em>阅读必须限时，一篇仔细阅读控制在 9 分钟内</em></div>
+        <div class="bar"><i style="width:34%"></i></div>
+      </div>
+      <div class="slot">
+        <div class="slot-time">15 分钟</div>
+        <div class="slot-txt"><b>复盘错题本</b>：写清错因（不认识 / 定位错 / 想太多）<em>这一步最容易被跳过，但它决定你后面能不能提分</em></div>
+        <div class="bar"><i style="width:12%"></i></div>
+      </div>
+    </div>
+    <p class="sub" style="margin-top:16px;font-size:13px;">如果某天只有 1 小时：<b style="color:var(--txt)">单词 20 分钟 + 听力 25 分钟 + 复盘 15 分钟</b>，阅读可以砍，单词和听力不能断。周末把省下的时间补成一套完整真题。</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2>分数怎么分配最稳</h2><span class="sec-note">总分 710，425 过线</span></div>
+    <div class="score">
+      <div class="sc">
+        <div class="sc-top"><span>听力</span><b>150 / 249</b></div>
+        <div class="sc-track"><i style="width:60%"></i></div>
+        <div class="sc-foot"><span>占比 35%</span><span>目标 60%</span></div>
+      </div>
+      <div class="sc">
+        <div class="sc-top"><span>阅读</span><b>165 / 249</b></div>
+        <div class="sc-track"><i style="width:66%"></i></div>
+        <div class="sc-foot"><span>占比 35%</span><span>目标 66%</span></div>
+      </div>
+      <div class="sc">
+        <div class="sc-top"><span>写作 + 翻译</span><b>120 / 212</b></div>
+        <div class="sc-track"><i style="width:57%"></i></div>
+        <div class="sc-foot"><span>占比 30%</span><span>目标 57%</span></div>
+      </div>
+    </div>
+    <p class="sub" style="margin-top:16px;font-size:13px;">合计 435 分，过线有余量。<b style="color:var(--txt)">提分性价比排序：阅读 &gt; 写作翻译 &gt; 听力</b>。阅读靠方法能在 3 周内明显提升；写作翻译有模板和固定表达，投入产出最确定；听力提分慢，但要保证每天不断，否则会倒退。</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2>各题型的关键动作</h2><span class="sec-note">照着做，别自己发明方法</span></div>
+    <div class="tips">
+      <div class="tip"><h4>听力 · 预读比听更重要</h4><p>播放前的空隙先扫选项，圈出人名、数字、动词。短篇新闻盯首句（who + what），长对话留意 <code>but / actually / to be honest</code> 后面的转折，答案常在那里。</p></div>
+      <div class="tip"><h4>选词填空 · 先判词性</h4><p>15 选 10，先给每个空标出需要名词 / 动词 / 形容词 / 副词，再在对应词性里挑。词性对了，蒙也有 50% 命中率。</p></div>
+      <div class="tip"><h4>长篇匹配 · 关键词扫读</h4><p>先读题干圈独特名词（专有名词、数字、生僻词），再回原文扫。不要通读全文，时间不够。</p></div>
+      <div class="tip"><h4>仔细阅读 · 找同义替换</h4><p>答案几乎不会用原文原词，而是换一种说法。定位到句后，比对"意思是否一致"，而不是"词是否一样"。</p></div>
+      <div class="tip"><h4>写作 · 三段式 + 不冒险</h4><p>开头现象 + 观点，中间 2 个理由 + 1 个例子，结尾总结。宁可用简单句写对，也别用复杂句写错——拼写和语法错误扣分最狠。</p></div>
+      <div class="tip"><h4>翻译 · 先主干后修饰</h4><p>先把主谓宾拎出来写成一句简单句，再把定语、状语往里塞。遇到不会的词，用上位词替换（"四合院"不会就写 <code>traditional Chinese house</code>）。</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">06</span><h2>这几件事别做</h2></div>
+    <div class="warn">
+      <h4>常见坑，踩了会白费两周</h4>
+      <ul>
+        <li><b>只背单词不做题。</b>单词是原料，题型是做法，光有原料做不出菜。每天至少碰一次真题材料。</li>
+        <li><b>刷模拟题代替真题。</b>模拟题出题思路和真题差很远，近 5 年真题至少过两遍，比刷 20 套模拟有用。</li>
+        <li><b>错题本只抄不看。</b>每周固定回看一次，标记"错第二遍"的题，这些才是你真正的漏洞。</li>
+        <li><b>听力靠"泛听磨耳朵"。</b>每天听 2 小时英文歌不会提分，精听 1 篇 + 跟读才有用。</li>
+        <li><b>考前一周开新资料。</b>冲刺期只回炉已学内容，新资料只会制造焦虑。</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <span>CET-4 备考规划 · 2026 年 12 月场次</span>
+    <span>笔试日期以官方通知为准 · 建议打印贴在书桌前</span>
+  </footer>
+
+</div>
+</body>
+</html>
