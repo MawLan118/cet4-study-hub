@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>四级单词听写 · 看中文拼英文</title>
+<style>
+  :root{
+    --bg:#0b0e13; --card:#151c26; --card2:#1b232f; --line:#28323f;
+    --txt:#e9eff8; --txt2:#a3b2c6; --txt3:#6d7d93;
+    --ok:#4ecdc4; --no:#f2777a; --warm:#f7b267;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    background:
+      radial-gradient(900px 500px at 50% -12%, #1a2433 0%, transparent 62%),
+      radial-gradient(700px 420px at 88% 108%, #16202c 0%, transparent 60%),
+      var(--bg);
+    color:var(--txt);
+    font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",-apple-system,"Segoe UI",sans-serif;
+    display:flex; flex-direction:column; align-items:center;
+    padding:26px 18px 40px; min-height:100%;
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{width:100%; max-width:600px; display:flex; flex-direction:column; gap:18px;}
+
+  .top{display:flex; align-items:center; gap:12px;}
+  .logo{
+    width:34px;height:34px;border-radius:10px;flex:none;
+    background:linear-gradient(140deg,#4ecdc4,#3b82c4);
+    display:grid;place-items:center;font-weight:800;font-size:14px;color:#08131a;
+  }
+  .title{font-size:15px;font-weight:700;letter-spacing:.04em;}
+  .title small{display:block;font-size:11px;font-weight:500;color:var(--txt3);letter-spacing:.08em;margin-top:1px;}
+  .top .right{margin-left:auto;display:flex;gap:8px;align-items:center;}
+  .lang{
+    font-size:11px;color:var(--txt3);border:1px solid var(--line);border-radius:999px;
+    padding:5px 10px;background:var(--card);cursor:pointer;user-select:none;font-family:inherit;transition:.15s;
+  }
+  .lang:hover{color:var(--txt);border-color:#3a4757;}
+  .lang b{color:var(--ok);font-weight:700;}
+
+  .meter{display:flex;flex-direction:column;gap:8px;}
+  .meter-top{display:flex;justify-content:space-between;font-size:11.5px;color:var(--txt3);font-variant-numeric:tabular-nums;}
+  .meter-top b{color:var(--txt2);font-weight:600;}
+  .track{height:5px;background:#1c2431;border-radius:99px;overflow:hidden;}
+  .track i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ok),#5aa9e6);border-radius:99px;transition:width .35s ease;}
+
+  .card{
+    background:linear-gradient(180deg,var(--card2),var(--card));
+    border:1px solid var(--line); border-radius:22px;
+    padding:30px 26px 24px; position:relative; overflow:hidden;
+    box-shadow:0 18px 46px -28px rgba(0,0,0,.9);
+    transition:border-color .2s, transform .06s;
+  }
+  .card.ok{border-color:rgba(78,205,196,.55);}
+  .card.no{border-color:rgba(242,119,122,.55);}
+  .card.shake{animation:shake .32s;}
+  @keyframes shake{
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-7px)}
+    40%{transform:translateX(6px)}
+    60%{transform:translateX(-4px)}
+    80%{transform:translateX(2px)}
+  }
+
+  .pos{
+    display:inline-block;font-size:11.5px;letter-spacing:.1em;color:var(--txt3);
+    border:1px solid var(--line);border-radius:6px;padding:2px 7px;margin-bottom:16px;
+    font-family:ui-monospace,Consolas,monospace;
+  }
+  .cn{
+    font-size:clamp(28px,7.4vw,42px); font-weight:800; line-height:1.35;
+    letter-spacing:.01em; word-break:break-word;
+  }
+  .sub{
+    margin-top:10px;font-size:12.5px;color:var(--txt3);min-height:18px;
+    font-family:ui-monospace,Consolas,monospace;letter-spacing:.06em;word-break:break-all;
+  }
+
+  .speak{
+    margin-top:20px;display:inline-flex;align-items:center;gap:8px;
+    background:rgba(78,205,196,.09);border:1px solid rgba(78,205,196,.32);
+    color:#8ee6df;border-radius:999px;padding:8px 15px;font-size:12.5px;
+    cursor:pointer;font-family:inherit;transition:.18s;
+  }
+  .speak:hover{background:rgba(78,205,196,.16);}
+  .speak svg{width:14px;height:14px;flex:none;}
+  .speak.playing{animation:pulse 1s infinite;}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+
+  .inputrow{margin-top:22px;position:relative;}
+  input[type=text]{
+    width:100%;background:#0c1118;border:1.5px solid var(--line);border-radius:14px;
+    color:var(--txt);font-size:21px;letter-spacing:.02em;padding:15px 18px;
+    font-family:ui-monospace,Consolas,"SF Mono",monospace;outline:none;transition:.18s;
+  }
+  input[type=text]::placeholder{color:#465468;font-size:15px;letter-spacing:.04em;}
+  input[type=text]:focus{border-color:#3f8f97;box-shadow:0 0 0 3px rgba(78,205,196,.09);}
+  input.ok{border-color:var(--ok);color:#8ee6df;}
+  input.no{border-color:var(--no);color:#f7a1a3;}
+
+  .fb{margin-top:12px;font-size:13.5px;min-height:22px;line-height:1.75;color:var(--txt3);}
+  .fb .good{color:var(--ok);font-weight:700;}
+  .fb .bad{color:var(--no);font-weight:700;}
+  .fb .ans{color:var(--warm);font-weight:700;}
+  .fb code{font-family:ui-monospace,Consolas,monospace;background:#0c1118;border:1px solid var(--line);
+    padding:1px 6px;border-radius:5px;color:var(--txt);font-size:13.5px;}
+
+  .actions{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap;}
+  .navrow{display:flex;gap:9px;margin-top:9px;}
+  button.btn.mini{
+    flex:1;min-width:0;padding:9px 8px;font-size:12.5px;font-weight:500;
+    color:var(--txt3);border-radius:10px;
+  }
+  button.btn.mini:hover{color:var(--txt2);}
+  button.btn{
+    flex:1;min-width:96px;border-radius:12px;padding:12px 10px;font-size:13.5px;font-weight:600;
+    cursor:pointer;font-family:inherit;border:1px solid var(--line);background:var(--card2);color:var(--txt2);
+    transition:.16s;
+  }
+  button.btn:hover{color:var(--txt);border-color:#3a4757;}
+  button.btn.primary{background:linear-gradient(180deg,#4ecdc4,#35a8a0);border-color:transparent;color:#06211f;font-weight:800;}
+  button.btn.primary:hover{filter:brightness(1.07);}
+  button.btn.danger:hover{color:#f7a1a3;border-color:rgba(242,119,122,.5);}
+  button.btn:disabled{opacity:.45;cursor:default;}
+
+  .foot{display:flex;flex-wrap:wrap;gap:7px;align-items:center;justify-content:center;}
+  .chip{
+    font-size:11.5px;color:var(--txt3);border:1px solid var(--line);border-radius:999px;
+    padding:6px 12px;background:var(--card);cursor:pointer;user-select:none;transition:.15s;
+  }
+  .chip.on{color:#8ee6df;border-color:rgba(78,205,196,.45);background:rgba(78,205,196,.1);}
+  .chip:hover{border-color:#3a4757;}
+  .chip em{font-style:normal;opacity:.6;margin-left:4px;font-size:10.5px;}
+  .footline{font-size:11px;color:#4b586b;text-align:center;line-height:1.7;}
+  .footline a{color:#5f7f9a;text-decoration:none;border-bottom:1px dotted #3a4757;cursor:pointer;}
+  .footline a.hot{color:var(--warm);border-bottom-color:rgba(247,178,103,.4);}
+  .footline a.hot b{font-weight:700;}
+
+  .screen{
+    background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);
+    border-radius:22px;padding:36px 28px;text-align:center;
+  }
+  .screen h2{font-size:23px;font-weight:800;letter-spacing:.01em;line-height:1.45;}
+  .screen p{margin-top:12px;font-size:13.5px;color:var(--txt2);line-height:1.85;}
+  .screen .steps{margin-top:22px;text-align:left;display:flex;flex-direction:column;gap:11px;}
+  .step{display:flex;gap:12px;align-items:flex-start;font-size:13px;color:var(--txt2);}
+  .step b{flex:none;width:21px;height:21px;border-radius:50%;background:rgba(78,205,196,.12);
+    color:#8ee6df;font-size:11px;display:grid;place-items:center;margin-top:1px;}
+  .screen .go{margin-top:26px;width:100%;padding:15px;font-size:15px;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px;}
+  .box{background:#0e141b;border:1px solid var(--line);border-radius:12px;padding:14px;}
+  .box .k{font-size:11px;color:var(--txt3);letter-spacing:.06em;}
+  .box .v{font-size:19px;font-weight:700;margin-top:4px;font-variant-numeric:tabular-nums;}
+  .list{margin-top:18px;text-align:left;font-size:13px;color:var(--txt2);max-height:200px;overflow:auto;
+    border:1px solid var(--line);border-radius:12px;padding:4px 14px;background:#0e141b;}
+  .list .row{padding:9px 2px;border-bottom:1px solid rgba(40,50,63,.6);display:flex;justify-content:space-between;gap:10px;align-items:baseline;}
+  .list .row:last-child{border-bottom:none;}
+  .list .row span:first-child{font-family:ui-monospace,Consolas,monospace;color:var(--txt);font-weight:600;}
+  .list .row .cn2{color:var(--txt3);font-size:12px;text-align:right;}
+  .list .empty{color:#4b586b;text-align:center;padding:18px 0;border:none;}
+  .hidden{display:none !important;}
+
+  @media(max-width:480px){
+    body{padding:18px 13px 30px;}
+    .card{padding:24px 19px 20px;border-radius:18px;}
+    input[type=text]{font-size:19px;padding:13px 15px;}
+    .actions .btn{min-width:0;flex:1;padding:12px 6px;font-size:12.5px;}
+    .cn{font-size:clamp(26px,8vw,36px);}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="top">
+    <div class="logo">C4</div>
+    <div class="title">四级单词听写<small>看中文 · 听发音 · 拼英文</small></div>
+    <div class="right">
+      <button class="lang" id="langBtn" title="切换发音口音">发音 <b id="langTxt">英式</b></button>
+    </div>
+  </div>
+
+  <!-- 开始页 -->
+  <div class="screen" id="startScreen">
+    <h2>听一遍，然后拼出来</h2>
+    <p>共 <b id="poolN">0</b> 个词。屏幕上只出现中文，系统用英式发音读一遍英文，你在下面把单词拼出来。</p>
+    <div class="steps">
+      <div class="step"><b>1</b><span>看中文释义，先自己回忆拼写</span></div>
+      <div class="step"><b>2</b><span>点「再听一遍」反复听，直到听清每个音</span></div>
+      <div class="step"><b>3</b><span>输错不限次数；提示连点三次会直接给出答案</span></div>
+      <div class="step"><b>4</b><span>拼错或看过答案的词进入「错词本」，巩固复习答对后才移除</span></div>
+    </div>
+    <button class="btn primary go" id="startBtn">开始</button>
+    <p style="margin-top:14px;font-size:11.5px;color:#4b586b;">建议戴耳机 · 首次点击后才会出声（浏览器限制）</p>
+  </div>
+
+  <!-- 练习区 -->
+  <div id="quiz" class="hidden" style="display:flex;flex-direction:column;gap:14px;">
+    <div class="meter">
+      <div class="meter-top">
+        <span>进度 <b id="progTxt">0 / 0</b></span>
+        <span>连对 <b id="streakTxt">0</b> · 正确率 <b id="accTxt">—</b></span>
+      </div>
+      <div class="track"><i id="progBar"></i></div>
+    </div>
+
+    <div class="card" id="card">
+      <div class="pos" id="posTag">v.</div>
+      <div class="cn" id="cnTxt">—</div>
+      <div class="sub" id="subTxt"></div>
+
+      <button class="speak" id="speakBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/>
+        </svg>
+        <span id="speakTxt">再听一遍</span>
+      </button>
+
+      <div class="inputrow">
+        <input type="text" id="ans" placeholder="在这里输入英文单词，回车提交"
+               autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      </div>
+      <div class="fb" id="fb"></div>
+
+      <div class="actions" id="actions">
+        <button class="btn primary" id="submitBtn">提交</button>
+        <button class="btn" id="hintBtn">提示</button>
+      </div>
+      <div class="actions hidden" id="nextRow">
+        <button class="btn primary" id="nextBtn">下一个</button>
+      </div>
+
+      <div class="navrow">
+        <button class="btn mini" id="prevNavBtn">‹ 上一个</button>
+        <button class="btn mini" id="nextNavBtn">下一个 ›</button>
+      </div>
+    </div>
+
+    <div class="foot" id="chips"></div>
+    <div class="footline">
+      <span id="voiceNote"></span>
+      <br><a id="resetLink">重新开始</a> · <a id="bookLink" class="hot">错词本 <b id="bookN">0</b></a>
+    </div>
+  </div>
+
+  <!-- 结束页 -->
+  <div class="screen hidden" id="endScreen">
+    <h2>这一轮结束</h2>
+    <p>下面是你的成绩，错词已自动收进错词本。</p>
+    <div class="grid2">
+      <div class="box"><div class="k">正确率</div><div class="v" id="endAcc">—</div></div>
+      <div class="box"><div class="k">干净答对</div><div class="v" id="endFirst">—</div></div>
+      <div class="box"><div class="k">拼错次数</div><div class="v" id="endWrong">—</div></div>
+      <div class="box"><div class="k">最长连对</div><div class="v" id="endStreak">—</div></div>
+    </div>
+    <div class="list" id="endList"></div>
+    <div class="actions" style="margin-top:22px;">
+      <button class="btn primary" id="againBtn">再练一轮</button>
+      <button class="btn" id="reviewBtn">去错词本巩固</button>
+    </div>
+  </div>
+
+  <!-- 错词本 -->
+  <div class="screen hidden" id="bookScreen">
+    <h2>错词本</h2>
+    <p>拼错过、或看过答案的词都在这里。<br>进入巩固复习后，<b style="color:#8ee6df">不看提示答对</b>的词才会被移出。</p>
+    <div class="list" id="bookList"></div>
+    <div class="actions" style="margin-top:20px;">
+      <button class="btn primary" id="bookStudyBtn">巩固复习</button>
+      <button class="btn danger" id="bookClearBtn">清空</button>
+      <button class="btn" id="bookBackBtn">返回</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var ITEMS = [{"w": "achieve", "p": "v.", "cn": "实现；达到", "col": "achieve one's goal", "g": "动词", "alt": []}, {"w": "acquire", "p": "v.", "cn": "获得；习得", "col": "acquire skills", "g": "动词", "alt": []}, {"w": "adapt", "p": "v.", "cn": "适应；改编", "col": "adapt to change", "g": "动词", "alt": []}, {"w": "adjust", "p": "v.", "cn": "调整；适应", "col": "adjust to a new life", "g": "动词", "alt": []}, {"w": "adopt", "p": "v.", "cn": "采纳；收养", "col": "adopt a policy", "g": "动词", "alt": []}, {"w": "affect", "p": "v.", "cn": "影响（动词）", "col": "be affected by", "g": "动词", "alt": []}, {"w": "afford", "p": "v.", "cn": "负担得起", "col": "can't afford to wait", "g": "动词", "alt": []}, {"w": "allocate", "p": "v.", "cn": "分配", "col": "allocate resources", "g": "动词", "alt": []}, {"w": "analyze", "p": "v.", "cn": "分析", "col": "analyze the data", "g": "动词", "alt": ["analyse"]}, {"w": "apply", "p": "v.", "cn": "申请；应用", "col": "apply for a position", "g": "动词", "alt": []}, {"w": "appreciate", "p": "v.", "cn": "感激；欣赏", "col": "appreciate your help", "g": "动词", "alt": []}, {"w": "assess", "p": "v.", "cn": "评估", "col": "assess the risk", "g": "动词", "alt": []}, {"w": "assume", "p": "v.", "cn": "认为；承担", "col": "assume responsibility", "g": "动词", "alt": []}, {"w": "attract", "p": "v.", "cn": "吸引", "col": "attract attention", "g": "动词", "alt": []}, {"w": "avoid", "p": "v.", "cn": "避免", "col": "avoid making mistakes", "g": "动词", "alt": []}, {"w": "boost", "p": "v.", "cn": "提升；促进", "col": "boost efficiency", "g": "动词", "alt": []}, {"w": "broaden", "p": "v.", "cn": "拓宽", "col": "broaden one's horizons", "g": "动词", "alt": []}, {"w": "claim", "p": "v.", "cn": "声称；索取", "col": "claim that ...", "g": "动词", "alt": []}, {"w": "commit", "p": "v.", "cn": "承诺；投入", "col": "commit to a plan", "g": "动词", "alt": []}, {"w": "compete", "p": "v.", "cn": "竞争", "col": "compete with rivals", "g": "动词", "alt": []}, {"w": "conduct", "p": "v.", "cn": "进行；实施", "col": "conduct a survey", "g": "动词", "alt": []}, {"w": "confirm", "p": "v.", "cn": "确认", "col": "confirm the booking", "g": "动词", "alt": []}, {"w": "consume", "p": "v.", "cn": "消耗；消费", "col": "consume energy", "g": "动词", "alt": []}, {"w": "contribute", "p": "v.", "cn": "促成；贡献", "col": "contribute to", "g": "动词", "alt": []}, {"w": "convince", "p": "v.", "cn": "说服", "col": "convince sb of sth", "g": "动词", "alt": []}, {"w": "cope", "p": "v.", "cn": "应对", "col": "cope with pressure", "g": "动词", "alt": []}, {"w": "demonstrate", "p": "v.", "cn": "证明；演示", "col": "demonstrate the value", "g": "动词", "alt": []}, {"w": "deserve", "p": "v.", "cn": "值得", "col": "deserve attention", "g": "动词", "alt": []}, {"w": "distinguish", "p": "v.", "cn": "区分", "col": "distinguish A from B", "g": "动词", "alt": []}, {"w": "eliminate", "p": "v.", "cn": "消除", "col": "eliminate waste", "g": "动词", "alt": []}, {"w": "emphasize", "p": "v.", "cn": "强调", "col": "emphasize the importance", "g": "动词", "alt": ["emphasise"]}, {"w": "encourage", "p": "v.", "cn": "鼓励", "col": "encourage sb to do", "g": "动词", "alt": []}, {"w": "enhance", "p": "v.", "cn": "增强", "col": "enhance efficiency", "g": "动词", "alt": []}, {"w": "ensure", "p": "v.", "cn": "确保", "col": "ensure safety", "g": "动词", "alt": []}, {"w": "establish", "p": "v.", "cn": "建立", "col": "establish a habit", "g": "动词", "alt": []}, {"w": "evaluate", "p": "v.", "cn": "评价", "col": "evaluate performance", "g": "动词", "alt": []}, {"w": "expand", "p": "v.", "cn": "扩大", "col": "expand the market", "g": "动词", "alt": []}, {"w": "explore", "p": "v.", "cn": "探索", "col": "explore possibilities", "g": "动词", "alt": []}, {"w": "fail", "p": "v.", "cn": "未能；失败", "col": "fail to do", "g": "动词", "alt": []}, {"w": "focus", "p": "v.", "cn": "集中", "col": "focus on details", "g": "动词", "alt": []}, {"w": "generate", "p": "v.", "cn": "产生", "col": "generate income", "g": "动词", "alt": []}, {"w": "handle", "p": "v.", "cn": "处理", "col": "handle complaints", "g": "动词", "alt": []}, {"w": "hesitate", "p": "v.", "cn": "犹豫", "col": "hesitate to do", "g": "动词", "alt": []}, {"w": "identify", "p": "v.", "cn": "识别；确认", "col": "identify the cause", "g": "动词", "alt": []}, {"w": "ignore", "p": "v.", "cn": "忽视", "col": "ignore the warning", "g": "动词", "alt": []}, {"w": "implement", "p": "v.", "cn": "实施", "col": "implement a plan", "g": "动词", "alt": []}, {"w": "indicate", "p": "v.", "cn": "表明", "col": "the data indicate", "g": "动词", "alt": []}, {"w": "involve", "p": "v.", "cn": "涉及", "col": "be involved in", "g": "动词", "alt": []}, {"w": "maintain", "p": "v.", "cn": "维持；主张", "col": "maintain balance", "g": "动词", "alt": []}, {"w": "manage", "p": "v.", "cn": "设法完成；管理", "col": "manage to do", "g": "动词", "alt": []}, {"w": "motivate", "p": "v.", "cn": "激励", "col": "motivate the team", "g": "动词", "alt": []}, {"w": "obtain", "p": "v.", "cn": "获得", "col": "obtain permission", "g": "动词", "alt": []}, {"w": "overcome", "p": "v.", "cn": "克服", "col": "overcome difficulties", "g": "动词", "alt": []}, {"w": "participate", "p": "v.", "cn": "参加", "col": "participate in", "g": "动词", "alt": []}, {"w": "perform", "p": "v.", "cn": "表现；执行", "col": "perform well", "g": "动词", "alt": []}, {"w": "persuade", "p": "v.", "cn": "说服", "col": "persuade sb to do", "g": "动词", "alt": []}, {"w": "prevent", "p": "v.", "cn": "阻止", "col": "prevent sb from doing", "g": "动词", "alt": []}, {"w": "promote", "p": "v.", "cn": "促进；晋升", "col": "promote growth", "g": "动词", "alt": []}, {"w": "pursue", "p": "v.", "cn": "追求", "col": "pursue a career", "g": "动词", "alt": []}, {"w": "recommend", "p": "v.", "cn": "推荐", "col": "recommend doing", "g": "动词", "alt": []}, {"w": "reduce", "p": "v.", "cn": "减少", "col": "reduce costs", "g": "动词", "alt": []}, {"w": "reflect", "p": "v.", "cn": "反映；反思", "col": "reflect the trend", "g": "动词", "alt": []}, {"w": "remain", "p": "v.", "cn": "仍然是", "col": "remain unchanged", "g": "动词", "alt": []}, {"w": "require", "p": "v.", "cn": "需要", "col": "require attention", "g": "动词", "alt": []}, {"w": "respond", "p": "v.", "cn": "回应", "col": "respond to", "g": "动词", "alt": []}, {"w": "reveal", "p": "v.", "cn": "揭示", "col": "reveal the truth", "g": "动词", "alt": []}, {"w": "struggle", "p": "v.", "cn": "挣扎；努力", "col": "struggle with", "g": "动词", "alt": []}, {"w": "suffer", "p": "v.", "cn": "遭受", "col": "suffer from", "g": "动词", "alt": []}, {"w": "survive", "p": "v.", "cn": "幸存；挺过", "col": "survive the crisis", "g": "动词", "alt": []}, {"w": "access", "p": "n.", "cn": "使用权；通道", "col": "access to information", "g": "名词", "alt": []}, {"w": "advantage", "p": "n.", "cn": "优势", "col": "take advantage of", "g": "名词", "alt": []}, {"w": "attitude", "p": "n.", "cn": "态度", "col": "attitude towards work", "g": "名词", "alt": []}, {"w": "authority", "p": "n.", "cn": "权威；当局", "col": "local authorities", "g": "名词", "alt": []}, {"w": "balance", "p": "n.", "cn": "平衡", "col": "work-life balance", "g": "名词", "alt": []}, {"w": "benefit", "p": "n.", "cn": "益处", "col": "benefit from", "g": "名词", "alt": []}, {"w": "budget", "p": "n.", "cn": "预算", "col": "on a tight budget", "g": "名词", "alt": []}, {"w": "burden", "p": "n.", "cn": "负担", "col": "a financial burden", "g": "名词", "alt": []}, {"w": "capacity", "p": "n.", "cn": "能力；容量", "col": "the capacity to do", "g": "名词", "alt": []}, {"w": "challenge", "p": "n.", "cn": "挑战", "col": "face a challenge", "g": "名词", "alt": []}, {"w": "circumstance", "p": "n.", "cn": "情况", "col": "under no circumstances", "g": "名词", "alt": []}, {"w": "community", "p": "n.", "cn": "社区", "col": "the local community", "g": "名词", "alt": []}, {"w": "consequence", "p": "n.", "cn": "后果", "col": "as a consequence", "g": "名词", "alt": []}, {"w": "consumer", "p": "n.", "cn": "消费者", "col": "consumer behavior", "g": "名词", "alt": []}, {"w": "contribution", "p": "n.", "cn": "贡献", "col": "make a contribution to", "g": "名词", "alt": []}, {"w": "crisis", "p": "n.", "cn": "危机", "col": "an economic crisis", "g": "名词", "alt": []}, {"w": "custom", "p": "n.", "cn": "习俗", "col": "local customs", "g": "名词", "alt": []}, {"w": "demand", "p": "n.", "cn": "需求", "col": "in great demand", "g": "名词", "alt": []}, {"w": "detail", "p": "n.", "cn": "细节", "col": "in detail", "g": "名词", "alt": []}, {"w": "economy", "p": "n.", "cn": "经济", "col": "the local economy", "g": "名词", "alt": []}, {"w": "efficiency", "p": "n.", "cn": "效率", "col": "improve efficiency", "g": "名词", "alt": []}, {"w": "effort", "p": "n.", "cn": "努力", "col": "make every effort", "g": "名词", "alt": []}, {"w": "emotion", "p": "n.", "cn": "情绪", "col": "control one's emotions", "g": "名词", "alt": []}, {"w": "evidence", "p": "n.", "cn": "证据", "col": "scientific evidence", "g": "名词", "alt": []}, {"w": "expense", "p": "n.", "cn": "开支", "col": "living expenses", "g": "名词", "alt": []}, {"w": "factor", "p": "n.", "cn": "因素", "col": "a key factor", "g": "名词", "alt": []}, {"w": "feature", "p": "n.", "cn": "特点", "col": "a common feature", "g": "名词", "alt": []}, {"w": "feedback", "p": "n.", "cn": "反馈", "col": "give feedback", "g": "名词", "alt": []}, {"w": "gap", "p": "n.", "cn": "差距", "col": "the generation gap", "g": "名词", "alt": []}, {"w": "impact", "p": "n.", "cn": "影响（名词）", "col": "have an impact on", "g": "名词", "alt": []}, {"w": "issue", "p": "n.", "cn": "问题；议题", "col": "a social issue", "g": "名词", "alt": []}, {"w": "majority", "p": "n.", "cn": "大多数", "col": "the majority of", "g": "名词", "alt": []}, {"w": "method", "p": "n.", "cn": "方法", "col": "a practical method", "g": "名词", "alt": []}, {"w": "opportunity", "p": "n.", "cn": "机会", "col": "seize an opportunity", "g": "名词", "alt": []}, {"w": "outcome", "p": "n.", "cn": "结果", "col": "the final outcome", "g": "名词", "alt": []}, {"w": "performance", "p": "n.", "cn": "表现", "col": "academic performance", "g": "名词", "alt": []}, {"w": "phenomenon", "p": "n.", "cn": "现象", "col": "a social phenomenon", "g": "名词", "alt": []}, {"w": "policy", "p": "n.", "cn": "政策", "col": "a new policy", "g": "名词", "alt": []}, {"w": "pressure", "p": "n.", "cn": "压力", "col": "under pressure", "g": "名词", "alt": []}, {"w": "principle", "p": "n.", "cn": "原则", "col": "in principle", "g": "名词", "alt": []}, {"w": "priority", "p": "n.", "cn": "优先事项", "col": "top priority", "g": "名词", "alt": []}, {"w": "process", "p": "n.", "cn": "过程", "col": "in the process of", "g": "名词", "alt": []}, {"w": "profit", "p": "n.", "cn": "利润", "col": "make a profit", "g": "名词", "alt": []}, {"w": "purpose", "p": "n.", "cn": "目的", "col": "on purpose", "g": "名词", "alt": []}, {"w": "quality", "p": "n.", "cn": "质量", "col": "quality of life", "g": "名词", "alt": []}, {"w": "resource", "p": "n.", "cn": "资源", "col": "natural resources", "g": "名词", "alt": []}, {"w": "responsibility", "p": "n.", "cn": "责任", "col": "take responsibility for", "g": "名词", "alt": []}, {"w": "risk", "p": "n.", "cn": "风险", "col": "at the risk of", "g": "名词", "alt": []}, {"w": "strategy", "p": "n.", "cn": "策略", "col": "a marketing strategy", "g": "名词", "alt": []}, {"w": "stress", "p": "n.", "cn": "压力", "col": "relieve stress", "g": "名词", "alt": []}, {"w": "survey", "p": "n.", "cn": "调查", "col": "according to a survey", "g": "名词", "alt": []}, {"w": "tendency", "p": "n.", "cn": "趋势", "col": "a growing tendency", "g": "名词", "alt": []}, {"w": "trend", "p": "n.", "cn": "趋势", "col": "a rising trend", "g": "名词", "alt": []}, {"w": "welfare", "p": "n.", "cn": "福利", "col": "social welfare", "g": "名词", "alt": []}, {"w": "workplace", "p": "n.", "cn": "工作场所", "col": "in the workplace", "g": "名词", "alt": []}, {"w": "adequate", "p": "adj.", "cn": "足够的", "col": "adequate time", "g": "形容词", "alt": []}, {"w": "appropriate", "p": "adj.", "cn": "合适的", "col": "appropriate for", "g": "形容词", "alt": []}, {"w": "available", "p": "adj.", "cn": "可获得的", "col": "be available to", "g": "形容词", "alt": []}, {"w": "aware", "p": "adj.", "cn": "意识到的", "col": "be aware of", "g": "形容词", "alt": []}, {"w": "beneficial", "p": "adj.", "cn": "有益的", "col": "beneficial to health", "g": "形容词", "alt": []}, {"w": "capable", "p": "adj.", "cn": "有能力的", "col": "be capable of", "g": "形容词", "alt": []}, {"w": "complex", "p": "adj.", "cn": "复杂的", "col": "a complex problem", "g": "形容词", "alt": []}, {"w": "considerable", "p": "adj.", "cn": "相当大的", "col": "a considerable amount of", "g": "形容词", "alt": []}, {"w": "convenient", "p": "adj.", "cn": "方便的", "col": "convenient for sb", "g": "形容词", "alt": []}, {"w": "crucial", "p": "adj.", "cn": "关键的", "col": "play a crucial role", "g": "形容词", "alt": []}, {"w": "efficient", "p": "adj.", "cn": "高效的", "col": "an efficient way", "g": "形容词", "alt": []}, {"w": "essential", "p": "adj.", "cn": "必不可少的", "col": "essential to success", "g": "形容词", "alt": []}, {"w": "eventually", "p": "adv.", "cn": "最终", "col": "eventually realize", "g": "形容词", "alt": []}, {"w": "evident", "p": "adj.", "cn": "明显的", "col": "it is evident that", "g": "形容词", "alt": []}, {"w": "excessive", "p": "adj.", "cn": "过度的", "col": "excessive pressure", "g": "形容词", "alt": []}, {"w": "frequent", "p": "adj.", "cn": "频繁的", "col": "frequent visits", "g": "形容词", "alt": []}, {"w": "gradually", "p": "adv.", "cn": "逐渐地", "col": "gradually improve", "g": "形容词", "alt": []}, {"w": "immediate", "p": "adj.", "cn": "立即的", "col": "take immediate action", "g": "形容词", "alt": []}, {"w": "inevitable", "p": "adj.", "cn": "不可避免的", "col": "an inevitable result", "g": "形容词", "alt": []}, {"w": "initially", "p": "adv.", "cn": "起初", "col": "initially oppose", "g": "形容词", "alt": []}, {"w": "likely", "p": "adj.", "cn": "可能的", "col": "be likely to do", "g": "形容词", "alt": []}, {"w": "negative", "p": "adj.", "cn": "负面的", "col": "a negative effect", "g": "形容词", "alt": []}, {"w": "obvious", "p": "adj.", "cn": "明显的", "col": "for obvious reasons", "g": "形容词", "alt": []}, {"w": "optimistic", "p": "adj.", "cn": "乐观的", "col": "optimistic about", "g": "形容词", "alt": []}, {"w": "particular", "p": "adj.", "cn": "特定的", "col": "in particular", "g": "形容词", "alt": []}, {"w": "positive", "p": "adj.", "cn": "积极的", "col": "a positive attitude", "g": "形容词", "alt": []}, {"w": "potential", "p": "adj.", "cn": "潜在的", "col": "potential customers", "g": "形容词", "alt": []}, {"w": "practical", "p": "adj.", "cn": "实用的", "col": "practical experience", "g": "形容词", "alt": []}, {"w": "previous", "p": "adj.", "cn": "之前的", "col": "the previous year", "g": "形容词", "alt": []}, {"w": "primary", "p": "adj.", "cn": "主要的", "col": "the primary reason", "g": "形容词", "alt": []}, {"w": "rarely", "p": "adv.", "cn": "很少", "col": "rarely mention", "g": "形容词", "alt": []}, {"w": "reasonable", "p": "adj.", "cn": "合理的", "col": "a reasonable price", "g": "形容词", "alt": []}, {"w": "relatively", "p": "adv.", "cn": "相对地", "col": "relatively low", "g": "形容词", "alt": []}, {"w": "reliable", "p": "adj.", "cn": "可靠的", "col": "reliable information", "g": "形容词", "alt": []}, {"w": "remarkable", "p": "adj.", "cn": "显著的", "col": "a remarkable change", "g": "形容词", "alt": []}, {"w": "severe", "p": "adj.", "cn": "严重的", "col": "severe weather", "g": "形容词", "alt": []}, {"w": "significant", "p": "adj.", "cn": "重要的；显著的", "col": "a significant difference", "g": "形容词", "alt": []}, {"w": "sufficient", "p": "adj.", "cn": "充足的", "col": "sufficient evidence", "g": "形容词", "alt": []}, {"w": "typical", "p": "adj.", "cn": "典型的", "col": "a typical example", "g": "形容词", "alt": []}, {"w": "urgent", "p": "adj.", "cn": "紧急的", "col": "an urgent need", "g": "形容词", "alt": []}, {"w": "various", "p": "adj.", "cn": "各种各样的", "col": "various reasons", "g": "形容词", "alt": []}, {"w": "vital", "p": "adj.", "cn": "至关重要的", "col": "play a vital role", "g": "形容词", "alt": []}, {"w": "widespread", "p": "adj.", "cn": "广泛的", "col": "widespread concern", "g": "形容词", "alt": []}, {"w": "heritage", "p": "", "cn": "遗产", "col": "", "g": "翻译", "alt": []}, {"w": "cultural relic", "p": "", "cn": "文物", "col": "", "g": "翻译", "alt": []}, {"w": "dynasty", "p": "", "cn": "朝代", "col": "", "g": "翻译", "alt": []}, {"w": "civilization", "p": "", "cn": "文明", "col": "", "g": "翻译", "alt": ["civilisation"]}, {"w": "cuisine", "p": "", "cn": "烹饪；菜肴", "col": "", "g": "翻译", "alt": []}, {"w": "handicraft", "p": "", "cn": "手工艺", "col": "", "g": "翻译", "alt": []}, {"w": "architecture", "p": "", "cn": "建筑", "col": "", "g": "翻译", "alt": []}, {"w": "calligraphy", "p": "", "cn": "书法", "col": "", "g": "翻译", "alt": []}, {"w": "porcelain", "p": "", "cn": "瓷器", "col": "", "g": "翻译", "alt": []}, {"w": "silk", "p": "", "cn": "丝绸", "col": "", "g": "翻译", "alt": []}, {"w": "philosophy", "p": "", "cn": "哲学", "col": "", "g": "翻译", "alt": []}, {"w": "rural", "p": "", "cn": "农村的", "col": "", "g": "翻译", "alt": []}, {"w": "urban", "p": "", "cn": "城市的", "col": "", "g": "翻译", "alt": []}, {"w": "infrastructure", "p": "", "cn": "基础设施", "col": "", "g": "翻译", "alt": []}, {"w": "sustainable", "p": "", "cn": "可持续的", "col": "", "g": "翻译", "alt": []}, {"w": "globalization", "p": "", "cn": "全球化", "col": "", "g": "翻译", "alt": ["globalisation"]}, {"w": "innovation", "p": "", "cn": "创新", "col": "", "g": "翻译", "alt": []}, {"w": "poverty alleviation", "p": "", "cn": "扶贫", "col": "", "g": "翻译", "alt": []}];
+  var BOOK_KEY = "cet4book.v2";
+
+  // ---------- 状态 ----------
+  var S = {
+    groups: { "动词": true, "名词": true, "形容词": true, "翻译": true },
+    pool: [], queue: [], i: 0, tries: 0, hintLv: 0,
+    solved: {}, right: 0, wrong: 0, firstTry: 0, streak: 0, best: 0,
+    wrongSet: {}, locked: false, accent: "en-GB", timer: null,
+    revealed: false, from: "start"
+  };
+  var el = function(id){ return document.getElementById(id); };
+  var card = el("card"), input = el("ans"), fb = el("fb");
+
+  // ---------- 错词本持久化 ----------
+  function loadBook(){
+    try {
+      var raw = localStorage.getItem(BOOK_KEY);
+      S.wrongSet = raw ? JSON.parse(raw) : {};
+      if (typeof S.wrongSet !== "object" || !S.wrongSet) S.wrongSet = {};
+    } catch(e){ S.wrongSet = {}; }
+  }
+  function saveBook(){
+    try { localStorage.setItem(BOOK_KEY, JSON.stringify(S.wrongSet)); } catch(e){}
+    el("bookN").textContent = Object.keys(S.wrongSet).length;
+  }
+
+  // ---------- 发音 ----------
+  var voices = [];
+  function loadVoices(){
+    if (!("speechSynthesis" in window)) { el("voiceNote").textContent = "当前浏览器不支持语音朗读，请用 Chrome / Edge 打开。"; return; }
+    voices = window.speechSynthesis.getVoices() || [];
+    if (!voices.length) { el("voiceNote").textContent = ""; return; }
+    var hasGB = voices.some(function(v){ return v.lang && v.lang.toLowerCase().indexOf("en-gb") === 0; });
+    if (S.accent === "en-GB" && !hasGB) {
+      el("voiceNote").textContent = "系统未安装英式语音，已自动改用其他英语发音";
+    } else { el("voiceNote").textContent = ""; }
+  }
+  if ("speechSynthesis" in window) {
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+
+  function pickVoice(){
+    if (!voices.length) return null;
+    var want = S.accent.toLowerCase();
+    var prefs = want === "en-gb"
+      ? ["hazel","serena","daniel","google uk english female","google uk english male","kate","arthur","en-gb"]
+      : ["aria","jenny","guy","zira","google us english","samantha","en-us"];
+    var en = voices.filter(function(v){ return (v.lang||"").toLowerCase().indexOf("en") === 0; });
+    var same = en.filter(function(v){ return (v.lang||"").toLowerCase().replace("_","-").indexOf(want) === 0; });
+    var scope = same.length ? same : en;
+    for (var i=0;i<prefs.length;i++){
+      for (var j=0;j<scope.length;j++){
+        var nm = (scope[j].name||"").toLowerCase();
+        if (nm.indexOf(prefs[i]) > -1) return scope[j];
+      }
+    }
+    return scope[0] || null;
+  }
+
+  function speak(text){
+    if (!("speechSynthesis" in window)) return;
+    try { window.speechSynthesis.cancel(); } catch(e){}
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = S.accent;
+    var v = pickVoice(); if (v) u.voice = v;
+    u.rate = 0.86; u.pitch = 1;
+    var btn = el("speakBtn");
+    btn.classList.add("playing");
+    u.onend = function(){ btn.classList.remove("playing"); };
+    u.onerror = function(){ btn.classList.remove("playing"); };
+    window.speechSynthesis.speak(u);
+  }
+
+  // ---------- 工具 ----------
+  function shuffle(a){
+    for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+    return a;
+  }
+  function norm(s){
+    return (s||"").toLowerCase().trim().replace(/\s+/g," ").replace(/[.。!！]+$/,"");
+  }
+  function isMatch(v, item){
+    if (v === norm(item.w)) return true;
+    for (var k=0;k<item.alt.length;k++){ if (v === norm(item.alt[k])) return true; }
+    return false;
+  }
+  function esc(s){
+    return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  // ---------- 屏幕切换 ----------
+  function showScreen(name){
+    ["startScreen","quiz","endScreen","bookScreen"].forEach(function(id){
+      var e = el(id);
+      e.classList.add("hidden");
+      e.style.display = "none";
+    });
+    var e = el(name);
+    e.classList.remove("hidden");
+    e.style.display = (name === "quiz") ? "flex" : "";
+  }
+
+  // ---------- 题池 ----------
+  function buildPool(){
+    S.pool = ITEMS.filter(function(it){ return S.groups[it.g]; });
+    el("poolN").textContent = S.pool.length;
+  }
+
+  function chips(){
+    var box = el("chips");
+    box.innerHTML = "";
+    ["动词","名词","形容词","翻译"].forEach(function(g){
+      var n = ITEMS.filter(function(it){ return it.g === g; }).length;
+      var d = document.createElement("div");
+      d.className = "chip" + (S.groups[g] ? " on" : "");
+      d.innerHTML = g + "<em>" + n + "</em>";
+      d.onclick = function(){
+        S.groups[g] = !S.groups[g];
+        if (!Object.keys(S.groups).some(function(k){ return S.groups[k]; })) { S.groups[g] = true; }
+        buildPool(); chips();
+        startQuiz(false);
+      };
+      box.appendChild(d);
+    });
+  }
+
+  // ---------- 流程 ----------
+  function beginWith(list, shuffled){
+    S.queue = shuffled === false ? list.slice() : shuffle(list.slice());
+    S.i = 0;
+    S.solved = {}; S.right = 0; S.wrong = 0; S.firstTry = 0; S.streak = 0; S.best = 0;
+    showScreen("quiz");
+    if (!S.queue.length) { fb.innerHTML = "没有可练的词，先在下方选择分类。"; return; }
+    show();
+  }
+  function startQuiz(shuffled){ beginWith(S.pool, shuffled); }
+
+  function show(){
+    if (S.i >= S.queue.length) { finish(); return; }
+    var it = S.queue[S.i];
+    clearTimeout(S.timer);
+    S.tries = 0; S.hintLv = 0; S.locked = false; S.revealed = false;
+    card.className = "card";
+    input.value = ""; input.className = "";
+    input.disabled = false;
+    fb.innerHTML = "";
+    el("posTag").textContent = it.p || (it.g === "翻译" ? "译" : "");
+    el("posTag").style.display = (it.p || it.g === "翻译") ? "inline-block" : "none";
+    el("cnTxt").textContent = it.cn;
+    el("subTxt").textContent = "";
+    el("hintBtn").textContent = "提示";
+    el("prevNavBtn").disabled = (S.i === 0);
+    el("actions").classList.remove("hidden");
+    el("nextRow").classList.add("hidden");
+    updateMeter();
+    // 回看模式：这个词已经答对过，直接把答案一起亮出来
+    if (S.solved[S.i]) {
+      fb.innerHTML = '<span class="good">已答对</span>　<code>' + esc(it.w) + '</code>' +
+                     (it.col ? '　<span style="color:#6d7d93">搭配：' + esc(it.col) + '</span>' : '') +
+                     '<br><span style="color:#6d7d93">回看模式，不计成绩；想再测一次就把答案删掉重新拼。</span>';
+    }
+    input.focus();
+    speak(it.w);
+  }
+
+  function updateMeter(){
+    var total = S.queue.length;
+    var done = Object.keys(S.solved).length;
+    el("progTxt").textContent = done + " / " + total;
+    el("progBar").style.width = (total ? (done/total*100) : 0) + "%";
+    el("streakTxt").textContent = S.streak;
+    var attempts = S.right + S.wrong;
+    el("accTxt").textContent = attempts ? Math.round(S.right / attempts * 100) + "%" : "—";
+  }
+
+  var MISS_MSG = [
+    '<span class="bad">不对</span>　再听一遍，注意结尾和拼写。',
+    '<span class="bad">还不对</span>　慢一点，一个音一个音拼。',
+    '<span class="bad">再试</span>　不着急，这条不限次数；想不起来就点「提示」。',
+    '<span class="bad">继续</span>　提示连点三次会给出答案，看完自己再拼一遍提交。'
+  ];
+
+  function submit(){
+    if (S.locked) { next(); return; }
+    var v = norm(input.value);
+    if (!v) { input.focus(); return; }
+    var it = S.queue[S.i];
+    var already = !!S.solved[S.i];
+    if (isMatch(v, it)) {
+      var note = "";
+      if (already) {
+        note = '　<span style="color:#6d7d93">（这题你已答对过，不计入成绩）</span>';
+      } else {
+        S.right++;
+        var clean = (S.tries === 0 && !S.revealed);
+        if (clean) S.firstTry++;
+        S.streak++; if (S.streak > S.best) S.best = S.streak;
+        S.solved[S.i] = true;
+        if (S.revealed) {
+          note = '　<span style="color:#6d7d93">（看过答案，这次保留在错词本，下轮巩固再验一次）</span>';
+        } else if (S.wrongSet[it.w]) {
+          delete S.wrongSet[it.w];
+          saveBook();
+          note = '　<span style="color:#8ee6df">这个词已从错词本移除</span>';
+        }
+      }
+      var isAlt = v !== norm(it.w);
+      card.className = "card ok";
+      input.className = "ok";
+      fb.innerHTML = '<span class="good">对</span>' + (isAlt ? ' （英式拼写 <code>' + esc(it.w) + '</code> 也可，按你这个算对）' : '') + note +
+                     (it.col ? '　<span style="color:#6d7d93">搭配：' + esc(it.col) + '</span>' : '');
+      updateMeter();
+      S.locked = true;
+      input.disabled = true;
+      el("actions").classList.add("hidden");
+      el("nextRow").classList.remove("hidden");
+      clearTimeout(S.timer);
+      S.timer = setTimeout(next, 900);
+    } else {
+      S.wrong++; S.streak = 0; S.tries++;
+      S.wrongSet[it.w] = it; saveBook();
+      card.className = "card no shake";
+      setTimeout(function(){ card.classList.remove("shake"); }, 340);
+      input.className = "no";
+      fb.innerHTML = MISS_MSG[Math.min(S.tries - 1, MISS_MSG.length - 1)];
+      updateMeter();
+      input.focus(); input.select();
+    }
+  }
+
+  function next(){
+    clearTimeout(S.timer);
+    S.i++;
+    show();
+  }
+
+  // ---------- 上一个 / 下一个导航 ----------
+  function navPrev(){
+    clearTimeout(S.timer);
+    if (S.i <= 0) return;
+    S.i--;
+    show();
+  }
+  function navNext(){
+    clearTimeout(S.timer);
+    var it = S.queue[S.i];
+    // 当前词还没作答就跳走：排到队尾，稍后会再考到，不会丢
+    if (!S.locked && it && !S.solved[S.i]) {
+      S.queue.push(it);
+    }
+    S.i++;
+    show();
+  }
+
+  // ---------- 提示（三级，第三级直接给答案） ----------
+  function hint(){
+    var it = S.queue[S.i]; if (!it || S.locked) return;
+    S.hintLv = Math.min(S.hintLv + 1, 3);
+    var w = it.w;
+    if (S.hintLv === 1) {
+      el("subTxt").textContent = "首字母 " + w[0].toUpperCase() + " · 共 " + w.replace(/[^a-zA-Z]/g,"").length + " 个字母";
+    } else if (S.hintLv === 2) {
+      var keep = Math.min(w.length, 3);
+      el("subTxt").textContent = w.slice(0, keep) + " " + "_ ".repeat(Math.max(w.length - keep, 0)).trim();
+    } else {
+      S.revealed = true;
+      el("subTxt").textContent = "";
+      fb.innerHTML = '<span class="ans">答案</span>　<code>' + esc(w) + '</code>' +
+                     (it.col ? '　<span style="color:#6d7d93">' + esc(it.col) + '</span>' : '') +
+                     '<br><span style="color:#6d7d93">输入框没锁，自己把它拼一遍再提交；这次答对也会保留在错词本里。</span>';
+    }
+    el("hintBtn").textContent = "提示 (" + S.hintLv + "/3)";
+    input.focus();
+  }
+
+  function finish(){
+    var total = Object.keys(S.solved).length;
+    var acc = (S.right + S.wrong) ? Math.round(S.right / (S.right + S.wrong) * 100) : 0;
+    el("endAcc").textContent = acc + "%";
+    el("endFirst").textContent = S.firstTry + " / " + total;
+    el("endWrong").textContent = S.wrong + " 次";
+    el("endStreak").textContent = S.best;
+    var list = Object.keys(S.wrongSet);
+    el("endList").innerHTML = list.length
+      ? '<div class="row" style="border:none;color:#6d7d93">错词本共 ' + list.length + ' 个词：</div>' +
+        list.map(function(w){
+          var it = S.wrongSet[w];
+          return '<div class="row"><span>' + esc(it.w) + '</span><span class="cn2">' + esc(it.cn) + '</span></div>';
+        }).join("")
+      : '<div class="row empty">这一轮没有留下错词。</div>';
+    showScreen("endScreen");
+  }
+
+  // ---------- 错词本 ----------
+  function renderBook(){
+    var list = Object.keys(S.wrongSet);
+    el("bookN").textContent = list.length;
+    el("bookList").innerHTML = list.length
+      ? list.map(function(w){
+          var it = S.wrongSet[w];
+          return '<div class="row"><span>' + esc(it.w) + '</span><span class="cn2">' + esc(it.cn) +
+                 (it.col ? ' · ' + esc(it.col) : '') + '</span></div>';
+        }).join("")
+      : '<div class="row empty">错词本是空的。练的时候拼错的词会自动收进来。</div>';
+    el("bookStudyBtn").disabled = !list.length;
+    el("bookClearBtn").disabled = !list.length;
+  }
+  function openBook(from){
+    S.from = from || "start";
+    renderBook();
+    showScreen("bookScreen");
+  }
+
+  // ---------- 交互 ----------
+  el("startBtn").onclick = function(){ buildPool(); startQuiz(true); };
+  el("submitBtn").onclick = submit;
+  el("nextBtn").onclick = navNext;
+  el("prevNavBtn").onclick = navPrev;
+  el("nextNavBtn").onclick = navNext;
+  el("hintBtn").onclick = hint;
+  el("speakBtn").onclick = function(){
+    if (S.queue.length && S.queue[S.i]) speak(S.queue[S.i].w);
+  };
+  input.addEventListener("keydown", function(e){
+    if (e.key === "Enter") { e.preventDefault(); submit(); }
+  });
+  input.addEventListener("input", function(){ if (!S.locked) { input.className = ""; } });
+
+  el("langBtn").onclick = function(){
+    S.accent = (S.accent === "en-GB") ? "en-US" : "en-GB";
+    el("langTxt").textContent = (S.accent === "en-GB") ? "英式" : "美式";
+    loadVoices();
+    if (S.queue.length && S.queue[S.i]) speak(S.queue[S.i].w);
+  };
+
+  el("resetLink").onclick = function(){
+    buildPool();
+    showScreen("startScreen");
+  };
+  el("bookLink").onclick = function(){ openBook("quiz"); };
+  el("bookBackBtn").onclick = function(){
+    showScreen(S.from === "quiz" ? "quiz" : (S.from === "end" ? "endScreen" : "startScreen"));
+    if (S.from === "quiz") input.focus();
+  };
+  el("bookClearBtn").onclick = function(){
+    if (!Object.keys(S.wrongSet).length) return;
+    S.wrongSet = {}; saveBook(); renderBook();
+  };
+  el("bookStudyBtn").onclick = function(){
+    var list = Object.keys(S.wrongSet).map(function(k){ return S.wrongSet[k]; });
+    if (!list.length) return;
+    beginWith(list, true);
+  };
+
+  el("againBtn").onclick = function(){ startQuiz(true); };
+  el("reviewBtn").onclick = function(){ openBook("end"); };
+
+  // 初始化
+  loadBook(); saveBook();
+  buildPool();
+  chips();
+})();
+</script>
+</body>
+</html>
